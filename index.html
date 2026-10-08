@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Name — Walkthrough</title>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '897854594938968');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=897854594938968&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel -->
+
+  <link rel="stylesheet" href="https://use.typekit.net/gsy0lao.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-primary:   #F9F4F2;
+      --bg-secondary: #E7E0DA;
+      --bg-elevated:  #F0EBE3;
+      --text-primary:   #181910;
+      --text-secondary: #8A7F75;
+      --text-muted:     #9A9485;
+      --border:       #D8D2CB;
+      --border-hover: #C8C2BB;
+      --icon:         #53524B;
+      --accent:         #F2A33B;
+      --accent-hover:   #E8952A;
+      --accent-subtle:  rgba(242, 163, 59, 0.08);
+      --shadow-sm: 0 1px 4px  rgba(24, 25, 16, 0.06);
+      --shadow-md: 0 2px 12px rgba(24, 25, 16, 0.08);
+      --shadow-lg: 0 8px 32px rgba(24, 25, 16, 0.12);
+      --radius-sm:   6px;
+      --radius-md:  10px;
+      --radius-lg:  16px;
+      --radius-xl:  20px;
+      --radius-full: 999px;
+
+      --frame-ink: rgba(24, 25, 16, 0.35);
+      --frame-ink-strong: rgba(24, 25, 16, 0.55);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    body { position: relative; }
+
+    /* === Atmosphere layers === */
+
+    .bg-blobs,
+    .bg-dots {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-blobs {
+      background:
+        radial-gradient(ellipse 900px 700px at 10% 15%, rgba(242,163,59,0.09), transparent 60%),
+        radial-gradient(ellipse 700px 800px at 90% 85%, rgba(242,163,59,0.06), transparent 60%),
+        radial-gradient(ellipse 500px 450px at 65% 20%, rgba(242,163,59,0.045), transparent 65%);
+    }
+
+    .bg-dots {
+      background-image: radial-gradient(circle, var(--icon) 1px, transparent 1.2px);
+      background-size: 22px 22px;
+      opacity: 0.14;
+    }
+
+    /* === Architectural viewport frame === */
+
+    /* Pencil roughen filter is defined in an inline SVG in <body>.
+       Applying it to a border gives the stroke a hand-drawn wobble. */
+
+    .frame {
+      position: absolute;
+      inset: 20px;
+      pointer-events: none;
+      z-index: 2;
+      border: 1.2px solid var(--frame-ink);
+      filter: url(#pencil);
+    }
+
+    /* Corner cross marks (+) sitting on each corner */
+    .corner-cross {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+    }
+    .corner-cross::before,
+    .corner-cross::after {
+      content: '';
+      position: absolute;
+      background: var(--frame-ink-strong);
+    }
+    .corner-cross::before {
+      left: 50%;
+      top: 0;
+      width: 1.6px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+    .corner-cross::after {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1.6px;
+      transform: translateY(-50%);
+    }
+    .corner-cross.tl { top: -8px;    left: -8px;    }
+    .corner-cross.tr { top: -8px;    right: -8px;   }
+    .corner-cross.bl { bottom: -8px; left: -8px;    }
+    .corner-cross.br { bottom: -8px; right: -8px;   }
+
+    /* === Page frame === */
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 64px 24px;
+    }
+
+    /* === Chrome bar === */
+
+    .chrome {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+    }
+
+    .chrome-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Caveat", "DM Sans", cursive;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--text-primary);
+      transform: rotate(-1.5deg);
+    }
+
+    .chrome-brand .scribble {
+      display: block;
+      width: 110px;
+      height: 10px;
+      margin-top: 2px;
+    }
+
+    .chrome-brand-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .chrome-help {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+    }
+
+    /* === Hero === */
+
+    .hero {
+      /* Shared column width — headline, subhead and video all cap at this
+         so the hero reads as one coherent column. Capped by viewport height
+         so the 16:9 video never pushes the page past one screen. */
+      --col: min(1100px, calc((100vh - 480px) * 16 / 9 * 1.35), calc(100vw - 200px));
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 1040px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 0 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      padding: 8px 16px;
+      border: 1px solid var(--frame-ink);
+      border-radius: var(--radius-full);
+      background: var(--bg-primary);
+    }
+
+    .eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .brand-wordmark {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 0;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      transform: rotate(-1.5deg);
+    }
+
+    .brand-wordmark em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .brand-wordmark .scribble {
+      display: block;
+      width: 128px;
+      height: 8px;
+      margin-top: 2px;
+      color: var(--text-primary);
+    }
+
+    .headline {
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(34px, 4vw, 50px);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin: 0 0 14px;
+      max-width: var(--col);
+    }
+
+    .headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .subheadline {
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(11px, 1.5vw, 16px);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: none;
+      margin: 0 0 14px;
+    }
+
+    .subheadline .sub-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 760px) {
+      .subheadline { font-size: 13px; }
+      .subheadline .sub-line { white-space: normal; }
+    }
+
+    .subheadline em {
+      font-style: italic;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .subheadline .accent-text {
+      color: var(--accent);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    /* === Video placeholder === */
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: var(--col);
+      margin: 0 auto 40px;
+    }
+
+    .video-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 6px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .video-label .meta {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-primary);
+      transform: rotate(-1deg);
+    }
+
+    .video {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-elevated);
+      overflow: visible;
+      width: 100%;
+    }
+
+    .video-iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      z-index: 2;
+    }
+
+    /* The border layer runs through the pencil filter; it does not contain
+       the play button so the button stays crisp. */
+    .video-border {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1.2px solid var(--frame-ink);
+      filter: url(#pencil);
+      z-index: 4;
+    }
+
+    /* dot grid inside video */
+    .video::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--icon) 1px, transparent 1.2px);
+      background-size: 22px 22px;
+      opacity: 0.12;
+      z-index: 1;
+    }
+
+    /* diagonal "no media yet" cross hatch */
+    .video::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, transparent calc(50% - 0.5px), var(--frame-ink) calc(50% - 0.5px), var(--frame-ink) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+        linear-gradient(45deg,  transparent calc(50% - 0.5px), var(--frame-ink) calc(50% - 0.5px), var(--frame-ink) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+      opacity: 0.3;
+      z-index: 1;
+    }
+
+    .video-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-family: inherit;
+    }
+
+    .video-play .circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .video-play:hover .circle {
+      transform: scale(1.06);
+      background: var(--accent-hover);
+    }
+
+    .video-play .triangle {
+      width: 0;
+      height: 0;
+      border-left: 18px solid var(--bg-primary);
+      border-top: 11px solid transparent;
+      border-bottom: 11px solid transparent;
+      margin-left: 5px;
+    }
+
+    .video-play .duration {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(24, 25, 16, 0.75);
+      color: var(--bg-primary);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .video-play .play-label {
+      position: absolute;
+      top: calc(50% + 72px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Caveat", "DM Sans", cursive;
+      font-size: 22px;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    /* === CTA === */
+
+    .cta-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--accent);
+      color: var(--text-primary);
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1;
+      padding: 14px 36px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      border: 1px solid var(--text-primary);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--text-primary);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+    }
+
+    .cta:hover {
+      background: var(--accent-hover);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--text-primary);
+    }
+
+    .cta .arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .cta:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .reassure {
+      margin-top: 2px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .reassure em {
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .cta-wrap-2 {
+      margin-top: 44px;
+    }
+
+    /* === Wins section === */
+
+    .wins {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: var(--col);
+      margin: 48px auto 56px;
+    }
+
+    .wins-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 6px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .wins-label .meta {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-primary);
+      transform: rotate(-1deg);
+    }
+
+    .wins-card {
+      position: relative;
+      background: var(--bg-elevated);
+    }
+
+    /* Border + corner crosses layer runs through the pencil filter.
+       Content sits above it with its own z-index so text stays crisp. */
+    .wins-border {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1.2px solid var(--frame-ink);
+      filter: url(#pencil);
+      z-index: 2;
+    }
+
+    .wins-inner {
+      position: relative;
+      z-index: 1;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .wins-section-head {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .wins-section-head .hand-label {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+    .wins-section-head .hand-label-link {
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .wins-section-head .hand-label-link:hover {
+      color: var(--accent);
+    }
+
+    /* Student wins masonry — 3 columns, each column stacks multiple
+       testimonial screenshots with small gaps between them. */
+    .wins-grid {
+      column-count: 3;
+      column-gap: 14px;
+    }
+    @media (max-width: 900px) { .wins-grid { column-count: 2; } }
+    @media (max-width: 600px) { .wins-grid { column-count: 1; } }
+
+    .win-tile {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin: 0 0 14px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      background: var(--bg-primary);
+      border: 1px solid var(--frame-ink);
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(24, 25, 16, 0.05),
+        0 6px 16px rgba(24, 25, 16, 0.08);
+    }
+    .win-tile img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* YouTube video thumbnails - 3 column, 16:9 */
+    .yt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .yt-card {
+      position: relative;
+      display: block;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-primary);
+      border: 1px solid var(--frame-ink);
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(24,25,16,0.06),
+        0 6px 16px rgba(24,25,16,0.08);
+    }
+
+    .yt-card iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .yt-time {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(24, 25, 16, 0.78);
+      color: var(--bg-primary);
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 3px 7px;
+      border-radius: 3px;
+      z-index: 2;
+    }
+
+    /* === Footer === */
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px dashed var(--frame-ink);
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--text-secondary);
+    }
+
+    /* === Responsive === */
+
+    @media (max-width: 900px) {
+      .frame { inset: 14px; }
+      .page { padding: 40px 32px 32px; }
+      .chrome { padding-bottom: 24px; }
+      .brand-wordmark { font-size: 20px; }
+      .hero { --col: min(1100px, calc(100vw - 72px)); }
+      .yt-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .frame { inset: 10px; }
+      .page { padding: 28px 18px 24px; }
+      .hero { --col: calc(100vw - 44px); padding-bottom: 12px; }
+      .brand-wordmark { font-size: 18px; margin-bottom: 10px; }
+      .brand-wordmark .scribble { width: 110px; }
+      .headline {
+        font-size: clamp(28px, 8vw, 36px);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+      }
+      .subheadline { font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
+      .video-wrap { margin-bottom: 24px; }
+      .video-label { font-size: 9px; }
+      .video-label .meta { font-size: 15px; }
+      .cta {
+        font-size: 24px;
+        padding: 12px 24px;
+        gap: 8px;
+        box-shadow: 3px 3px 0 var(--text-primary);
+      }
+      .cta:hover { box-shadow: 4px 4px 0 var(--text-primary); }
+      .reassure { font-size: 13px; }
+      .wins { margin: 32px auto 36px; }
+      .wins-inner { padding: 22px 14px; gap: 28px; }
+      .wins-label { font-size: 9px; }
+      .wins-label .meta { font-size: 15px; }
+      .wins-section-head .hand-label { font-size: 18px; }
+      .wins-grid { column-gap: 10px; }
+      .win-tile { margin-bottom: 10px; }
+      .yt-grid { grid-template-columns: 1fr; gap: 10px; }
+      .footer { flex-direction: column; gap: 10px; align-items: flex-start; font-size: 12px; }
+    }
+
+    @media (max-width: 400px) {
+      .page { padding: 24px 14px 20px; }
+      .hero { --col: calc(100vw - 36px); }
+      .headline { font-size: clamp(26px, 7.5vw, 32px); }
+      .cta { font-size: 22px; padding: 11px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Pencil roughen filter: feTurbulence + feDisplacementMap gives any element
+       it's applied to a hand-drawn wobble on its edges. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="pencil" x="-2%" y="-2%" width="104%" height="104%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="4" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="bg-blobs"></div>
+  <div class="bg-dots"></div>
+
+  <div class="frame">
+    <span class="corner-cross tl"></span>
+    <span class="corner-cross tr"></span>
+    <span class="corner-cross bl"></span>
+    <span class="corner-cross br"></span>
+  </div>
+
+  <div class="page">
+    <header class="chrome">
+      <div></div>
+      <a class="chrome-help" href="#" target="_blank" rel="noopener" aria-label="Help">?</a>
+    </header>
+
+    <main class="hero">
+      <div class="brand-wordmark">
+        <span><em>Soulmate</em> Studio</span>
+        <svg class="scribble" viewBox="0 0 180 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 6 C 30 2, 60 9, 95 4 S 160 7, 177 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h1 class="headline">
+        What if your best client<br />
+        became your <em>average</em> client?
+      </h1>
+
+      <p class="subheadline">
+        <span class="sub-line">8-minute walkthrough of the <em>Soulmate Client OS</em>.</span>
+        <span class="sub-line sub-line--stats"><span class="accent-text">$6.5M+ tracked wins. 103+ niches. 17 languages. 54 countries. 6 continents.</span></span>
+      </p>
+
+      <div class="video-wrap">
+        <div class="video-label">
+          <span></span>
+          <span class="meta">press play →</span>
+        </div>
+        <div class="video">
+          <div class="video-border">
+            <span class="corner-cross tl"></span>
+            <span class="corner-cross tr"></span>
+            <span class="corner-cross bl"></span>
+            <span class="corner-cross br"></span>
+          </div>
+          <iframe
+            class="video-iframe"
+            src="https://player.mediadelivery.net/embed/758905/4b193550-e632-4ef5-b112-7363a427467a?autoplay=false&loop=false&muted=false&preload=true&responsive=true"
+            loading="lazy"
+            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;"
+            allowfullscreen="true"
+          ></iframe>
+        </div>
+      </div>
+
+      <div class="cta-wrap">
+        <a class="cta" href="#" target="_blank" rel="noopener">
+          Join Soulmate Studio
+          <span class="arrow">→</span>
+        </a>
+        <p class="reassure">See how it <em>works</em> inside.</p>
+      </div>
+    </main>
+
+    <section class="wins">
+      <div class="wins-label">
+        <span></span>
+        <span class="meta">real proof →</span>
+      </div>
+      <div class="wins-card">
+        <div class="wins-border">
+          <span class="corner-cross tl"></span>
+          <span class="corner-cross tr"></span>
+          <span class="corner-cross bl"></span>
+          <span class="corner-cross br"></span>
+        </div>
+        <div class="wins-inner">
+
+          <div>
+            <div class="wins-section-head">
+              <span class="hand-label">our students</span>
+            </div>
+            <div class="wins-grid">
+              <div class="win-tile"><img src="Testimonial%201.png"  alt="Student testimonial 1"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%202.png"  alt="Student testimonial 2"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%203.png"  alt="Student testimonial 3"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%204.png"  alt="Student testimonial 4"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%205.png"  alt="Student testimonial 5"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%206.png"  alt="Student testimonial 6"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%207.jpg"  alt="Student testimonial 7"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%208.jpg"  alt="Student testimonial 8"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%209.jpg"  alt="Student testimonial 9"  loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2010.jpg" alt="Student testimonial 10" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2011.jpg" alt="Student testimonial 11" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2012.jpg" alt="Student testimonial 12" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2013.jpg" alt="Student testimonial 13" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2014.png" alt="Student testimonial 14" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2015.png" alt="Student testimonial 15" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2016.png" alt="Student testimonial 16" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2017.jpg" alt="Student testimonial 17" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2018.jpg" alt="Student testimonial 18" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2019.jpg" alt="Student testimonial 19" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2020.png" alt="Student testimonial 20" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2021.png" alt="Student testimonial 21" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2022.png" alt="Student testimonial 22" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2023.png" alt="Student testimonial 23" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2024.png" alt="Student testimonial 24" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2025.jpg" alt="Student testimonial 25" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2026.png" alt="Student testimonial 26" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2027.png" alt="Student testimonial 27" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2028.png" alt="Student testimonial 28" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2029.png" alt="Student testimonial 29" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2030.png" alt="Student testimonial 30" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2031.png" alt="Student testimonial 31" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2032.png" alt="Student testimonial 32" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2033.png" alt="Student testimonial 33" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2034.png" alt="Student testimonial 34" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2035.png" alt="Student testimonial 35" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2036.png" alt="Student testimonial 36" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2037.png" alt="Student testimonial 37" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2038.png" alt="Student testimonial 38" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2039.png" alt="Student testimonial 39" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2040.png" alt="Student testimonial 40" loading="lazy" /></div>
+              <div class="win-tile"><img src="Testimonial%2041.png" alt="Student testimonial 41" loading="lazy" /></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="wins-section-head">
+              <a class="hand-label hand-label-link" href="https://linktw.in/fjdmls" target="_blank" rel="noopener">click to watch →</a>
+            </div>
+            <div class="yt-grid">
+              <div class="yt-card">
+                <iframe
+                  src="https://www.youtube.com/embed/m3K4LoF6PrY"
+                  title="Student interview"
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+              </div>
+              <div class="yt-card">
+                <iframe
+                  src="https://www.youtube.com/embed/DBqQECzka5w"
+                  title="Student interview"
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+              </div>
+              <div class="yt-card">
+                <iframe
+                  src="https://www.youtube.com/embed/zfJm009icXk"
+                  title="Student interview"
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cta-wrap cta-wrap-2">
+        <a class="cta" href="#" target="_blank" rel="noopener">
+          Join Soulmate Studio
+          <span class="arrow">→</span>
+        </a>
+        <p class="reassure">See how it <em>works</em> inside.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© Harry Needham</span>
+      <a href="#" target="_blank" rel="noopener">Soulmate Studio</a>
+    </footer>
+  </div>
+</body>
+</html>
