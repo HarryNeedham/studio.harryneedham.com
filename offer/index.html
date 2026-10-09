@@ -1,0 +1,3246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soulmate Studio™ - Offer</title>
+
+  <!-- Meta Pixel - gated by cookie consent. Script loads but PageView
+       only fires once the visitor has accepted via the cookie banner. -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    window.firePixel = function () {
+      if (window._pixelFired) return;
+      window._pixelFired = true;
+      fbq('init', '897854594938968');
+      fbq('track', 'PageView');
+    };
+    try {
+      if (localStorage.getItem('ss_cookie_consent') === 'granted') window.firePixel();
+    } catch (e) {}
+  </script>
+  <!-- End Meta Pixel -->
+
+  <link rel="stylesheet" href="https://use.typekit.net/gsy0lao.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-primary:   #F9F4F2;
+      --bg-secondary: #E7E0DA;
+      --bg-elevated:  #F0EBE3;
+      --text-primary:   #181910;
+      --text-secondary: #8A7F75;
+      --text-muted:     #9A9485;
+      --border:       #D8D2CB;
+      --border-hover: #C8C2BB;
+      --icon:         #53524B;
+      --accent:         #F2A33B;
+      --accent-hover:   #E8952A;
+      --accent-subtle:  rgba(242, 163, 59, 0.08);
+      --accent-tint:    rgba(242, 163, 59, 0.14);
+      --accent-border:  rgba(242, 163, 59, 0.35);
+      --shadow-sm: 0 1px 4px  rgba(24, 25, 16, 0.06);
+      --shadow-md: 0 2px 12px rgba(24, 25, 16, 0.08);
+      --shadow-lg: 0 8px 32px rgba(24, 25, 16, 0.12);
+      --radius-sm:   6px;
+      --radius-md:  10px;
+      --radius-lg:  16px;
+      --radius-xl:  20px;
+      --radius-full: 999px;
+
+      --frame-ink: rgba(24, 25, 16, 0.35);
+      --frame-ink-strong: rgba(24, 25, 16, 0.55);
+      --timeline-ink: rgba(24, 25, 16, 0.20);
+
+      --col: min(1100px, calc(100vw - 200px));
+      --col-prose: min(760px, calc(100vw - 200px));
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: "DM Sans", sans-serif;
+      font-weight: 400;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    body { position: relative; }
+
+    /* === Atmosphere === */
+    .bg-blobs,
+    .bg-dots {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-blobs {
+      background:
+        radial-gradient(ellipse 900px 700px at 10% 15%, rgba(242,163,59,0.09), transparent 60%),
+        radial-gradient(ellipse 700px 800px at 90% 85%, rgba(242,163,59,0.06), transparent 60%),
+        radial-gradient(ellipse 500px 450px at 65% 20%, rgba(242,163,59,0.045), transparent 65%);
+    }
+    .bg-dots {
+      background-image: radial-gradient(circle, var(--icon) 1px, transparent 1.2px);
+      background-size: 22px 22px;
+      opacity: 0.12;
+    }
+
+    /* === Architectural frame === */
+    .frame {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      height: calc(100vh - 40px);
+      pointer-events: none;
+      z-index: 2;
+      border: 1.6px solid rgba(24, 25, 16, 0.5);
+      filter: url(#pencil);
+    }
+    .corner-cross {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+    }
+    .corner-cross::before,
+    .corner-cross::after {
+      content: '';
+      position: absolute;
+      background: var(--frame-ink-strong);
+    }
+    .corner-cross::before { left: 50%; top: 0; width: 1.6px; height: 100%; transform: translateX(-50%); }
+    .corner-cross::after  { top: 50%; left: 0; width: 100%; height: 1.6px; transform: translateY(-50%); }
+    .corner-cross.tl { top: -8px;    left: -8px;    }
+    .corner-cross.tr { top: -8px;    right: -8px;   }
+    .corner-cross.bl { bottom: -8px; left: -8px;    }
+    .corner-cross.br { bottom: -8px; right: -8px;   }
+
+    /* === Page frame === */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 64px 32px;
+    }
+
+    .chrome {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+    }
+    .chrome-left {
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chrome-left .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .chrome-help {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+    }
+
+    /* === Section layout - left-aligned by default === */
+    .section {
+      position: relative;
+      width: 100%;
+      max-width: var(--col);
+      margin: 0 auto;
+      padding: 72px 0;
+      text-align: left;
+    }
+    .section-prose {
+      max-width: var(--col-prose);
+      margin: 0;
+    }
+
+    /* === Wins banner - stretches edge-to-edge across the page ===
+       Direct child of .page: sits between the hero and section 2,
+       filling the full inner width inside the pencil frame. */
+    /* Architect title block - part of the hero frame. Positioned to span
+       the frame's inner width, with vertical cell dividers and a bottom
+       border that connect visually to the frame edges. */
+    .wins-banner {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      z-index: 3;
+      display: flex;
+      align-items: stretch;
+      background: var(--bg-primary);
+      border-bottom: 1.6px solid rgba(24, 25, 16, 0.5);
+      font-family: "DM Sans", sans-serif;
+      color: var(--text-primary);
+      filter: url(#pencil);
+    }
+    .win-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      padding: 14px 22px;
+      border-left: 1.6px solid rgba(24, 25, 16, 0.5);
+    }
+    .win-cell:first-child { border-left: 0; }
+    .win-cell--meta { min-width: 180px; }
+    .win-cell-label {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .win-cell-value {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+    .win-cell--notes { flex: 1; }
+    .win-cell--notes .win-cell-value em {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    /* Hero gets top padding to clear the absolutely-positioned title block */
+    .hero { padding-top: 76px; }
+    @media (max-width: 900px) {
+      .wins-banner { top: 14px; left: 14px; right: 14px; }
+      .win-cell { padding: 10px 14px; }
+      .win-cell--meta { min-width: 130px; }
+      .win-cell-value { font-size: 12px; }
+      .hero { padding-top: 68px; }
+    }
+    @media (max-width: 640px) {
+      .win-cell--meta:nth-child(2) { display: none; }
+    }
+    @media (max-width: 480px) {
+      .wins-banner { top: 10px; left: 10px; right: 10px; flex-direction: column; }
+      .win-cell { border-left: 0; border-top: 1.2px solid rgba(24, 25, 16, 0.5); padding: 8px 14px; }
+      .win-cell:first-child { border-top: 0; }
+      .win-cell--meta:nth-child(2) { display: flex; }
+      .hero { padding-top: 180px; }
+    }
+
+    /* === Full-width pencil divider between sections, with + crossmarks
+       at each intersection with the frame border === */
+    .divider {
+      position: relative;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc((100% - 100vw) / 2 + 20px);
+      right: calc((100% - 100vw) / 2 + 20px);
+      border-top: 1.2px solid var(--frame-ink);
+      filter: url(#pencil);
+    }
+    .divider .corner-cross {
+      top: -8px;
+      filter: url(#pencil);
+    }
+    .divider .divider-cross-left {
+      left: calc((100% - 100vw) / 2 + 20px - 8px);
+    }
+    .divider .divider-cross-right {
+      right: calc((100% - 100vw) / 2 + 20px - 8px);
+    }
+
+    @media (max-width: 900px) {
+      .divider::before {
+        left: calc((100% - 100vw) / 2 + 14px);
+        right: calc((100% - 100vw) / 2 + 14px);
+      }
+      .divider .divider-cross-left  { left: calc((100% - 100vw) / 2 + 14px - 8px); }
+      .divider .divider-cross-right { right: calc((100% - 100vw) / 2 + 14px - 8px); }
+    }
+    @media (max-width: 560px) {
+      .divider::before {
+        left: calc((100% - 100vw) / 2 + 10px);
+        right: calc((100% - 100vw) / 2 + 10px);
+      }
+      .divider .divider-cross-left  { left: calc((100% - 100vw) / 2 + 10px - 8px); }
+      .divider .divider-cross-right { right: calc((100% - 100vw) / 2 + 10px - 8px); }
+    }
+
+    /* === Step label - plain handwritten Caveat script, orange accent. === */
+    .step-pill {
+      display: inline-block;
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: 20px;
+      transform: rotate(-1.5deg);
+    }
+
+    .section--step { position: relative; }
+
+    /* Inside a step section, the Step label becomes a giant delicate
+       background numeral that spills upward across the divider into the
+       previous section, acting as a visual transition between the two. */
+    .section--step { overflow: visible; }
+    .section--step .step-pill {
+      position: absolute;
+      top: -120px;
+      right: -12px;
+      left: auto;
+      margin: 0;
+      font-size: clamp(280px, 30vw, 420px);
+      line-height: 0.85;
+      color: var(--accent);
+      opacity: 0.16;
+      transform: rotate(-3deg);
+      pointer-events: none;
+      z-index: 0;
+      white-space: nowrap;
+    }
+    .section--step .h-sect {
+      position: relative;
+      z-index: 1;
+    }
+    .section--summary .step-pill {
+      top: -120px;
+      font-size: clamp(180px, 20vw, 280px);
+    }
+
+    /* === Typography === */
+    .hand {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: inline-block;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif;
+      color: var(--text-primary);
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .h-hero {
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin: 0 auto 32px;
+      max-width: 1000px;
+    }
+    .h-hero em { font-style: italic; color: var(--accent); }
+
+    .h-sect {
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(28px, 3.4vw, 42px);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 0 0 20px;
+    }
+    .h-sect em { font-style: italic; color: var(--accent); }
+
+    .h-card {
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      margin: 0 0 10px;
+    }
+    .h-card em { font-style: italic; color: var(--accent); }
+
+    .lede {
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(16px, 1.5vw, 19px);
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin: 0 0 20px;
+    }
+    .lede em { font-style: italic; font-weight: 500; color: var(--text-primary); }
+
+    .body-copy {
+      font-family: "DM Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-primary);
+    }
+    .body-copy p { margin: 0 0 14px; }
+    .body-copy strong { font-weight: 600; }
+    .body-copy em { font-style: italic; }
+
+    /* Narrative stack - each phrase on its own line, left-aligned,
+       with equal spacing between every line. */
+    .narrative {
+      font-family: "DM Sans", sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+    .narrative p { margin: 0 0 12px; }
+    .narrative strong { font-weight: 600; }
+
+    .narrative-block {
+      font-family: "DM Sans", sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+    .narrative-block p {
+      margin: 0 0 16px;
+    }
+    .narrative-block p:last-child {
+      margin-bottom: 0;
+    }
+    .narrative-punch {
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif !important;
+      font-weight: 600;
+      font-size: 26px !important;
+      line-height: 1.25 !important;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .narrative-punch em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .cadence {
+      font-family: "DM Sans", sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+    .cadence span { display: block; margin-bottom: 4px; }
+    .cadence .punch { font-weight: 500; }
+
+    .brand-wordmark {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(64px, 7.6vw, 108px);
+      line-height: 1;
+      color: var(--text-primary);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      transform: rotate(-1.5deg);
+      margin-bottom: 44px;
+    }
+    .brand-wordmark em { font-style: normal; color: var(--accent); }
+    .brand-wordmark .scribble {
+      display: block;
+      width: 100%;
+      max-width: 440px;
+      height: 18px;
+      margin-top: 6px;
+      color: var(--text-primary);
+    }
+
+    .accent-text { color: var(--accent); font-weight: 500; }
+    .accent-italic { color: var(--accent); font-style: italic; font-weight: 500; }
+
+    /* === Hero - fills the full viewport, centres content vertically === */
+    .hero {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 0;
+      text-align: center;
+      width: 100%;
+      max-width: var(--col);
+      margin: 0 auto;
+    }
+    .hero-tagline {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 600;
+      font-size: clamp(30px, 3vw, 42px);
+      color: var(--accent);
+      transform: rotate(-1deg);
+      display: inline-block;
+      margin: 0 0 28px;
+    }
+    .hero-soulmate {
+      font-family: "DM Sans", sans-serif;
+      font-size: 19px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .hero-soulmate em {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--text-primary);
+      font-style: normal;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      align-self: center;
+      margin-top: 44px;
+      padding: 16px 36px;
+      background: var(--accent);
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: 999px;
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1;
+      border: 1.5px solid var(--text-primary);
+      box-shadow:
+        0 1px 2px rgba(24,25,16,0.1),
+        0 8px 20px rgba(242,163,59,0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      background: var(--accent-hover);
+      box-shadow:
+        0 2px 4px rgba(24,25,16,0.1),
+        0 12px 24px rgba(242,163,59,0.35);
+    }
+    .hero-cta .arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .hero-cta:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    /* === Cards === */
+    .card {
+      position: relative;
+      background: var(--bg-elevated);
+      padding: 22px 24px;
+    }
+    .card-border {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1.2px solid var(--frame-ink);
+      filter: url(#pencil);
+      z-index: 2;
+    }
+    .card-content { position: relative; z-index: 1; }
+    .card-tinted { background: var(--accent-subtle); }
+    .card-tinted .card-border { border-color: var(--accent-border); }
+
+    /* === Big attention callout === */
+    .callout-big {
+      position: relative;
+      padding: 32px 36px;
+      background: var(--bg-elevated);
+      text-align: left;
+    }
+    .callout-big h2 {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: clamp(24px, 2.6vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .callout-big h2 em { font-style: italic; color: var(--accent); }
+
+    /* === Grids === */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    /* === Dot list === */
+    .dot-list { list-style: none; padding: 0; margin: 0; }
+    .dot-list li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .dot-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .dot-list li strong { font-weight: 600; }
+
+    /* Problem list (plain stacked lines, left aligned) */
+    .plain-list {
+      font-family: "DM Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+    .plain-list p { margin: 0 0 8px; }
+
+    /* === Don't list (red-barred ❌ items) === */
+    .dont-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .dont-list li {
+      position: relative;
+      padding: 14px 18px 14px 46px;
+      background: var(--bg-elevated);
+      border-left: 3px solid #C03030;
+      border-radius: var(--radius-sm);
+      font-family: "DM Sans", sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--text-primary);
+    }
+    .dont-list li::before {
+      content: '✕';
+      position: absolute;
+      left: 18px;
+      top: 15px;
+      color: #C03030;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    /* === Task card - cream page bg + dot grid, soft shadow, rounded,
+       handwritten checklist (used for the "Maybe you're..." leaks list) === */
+    .task-card {
+      position: relative;
+      background: var(--bg-elevated);
+      padding: 36px 48px;
+      box-shadow:
+        0 1px 2px rgba(24, 25, 16, 0.06),
+        0 10px 26px rgba(24, 25, 16, 0.12);
+      border-radius: 14px;
+      width: 100%;
+      margin: 80px 0 40px;
+      overflow: hidden;
+    }
+
+    /* Centered handwritten statement - "That's where we start / And it's
+       deliberately different..." in Section 4. All black ink. */
+    .body-center {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(32px, 3.4vw, 44px);
+      line-height: 1.25;
+      text-align: center;
+      color: var(--text-primary);
+      margin: 72px auto;
+      max-width: var(--col);
+    }
+    .body-center em {
+      font-style: normal;
+      color: inherit;
+    }
+    /* Dot grid overlay matching the page background */
+    .task-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, var(--icon) 1px, transparent 1.2px);
+      background-size: 22px 22px;
+      opacity: 0.12;
+      border-radius: inherit;
+    }
+
+    .task-checklist {
+      position: relative;
+      z-index: 1;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .task-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .task-checklist li:last-child { margin-bottom: 0; }
+
+    .task-check {
+      display: inline-block;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(24, 25, 16, 0.7);
+      background: transparent;
+      margin-top: 5px;
+      filter: url(#pencil);
+    }
+    .task-text {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 700px) {
+      .task-card { padding: 28px 24px; }
+      .task-text { font-size: 22px; }
+    }
+
+    /* === Kraft-paper task card (Studio Projects "might be" list) === */
+    .kraft-card {
+      position: relative;
+      background:
+        radial-gradient(ellipse at top left, rgba(255,245,220,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(70,40,10,0.12) 0%, transparent 60%),
+        linear-gradient(180deg, #C9A77C 0%, #B9956B 100%);
+      padding: 40px 56px 36px;
+      box-shadow:
+        0 1px 2px rgba(24,25,16,0.10),
+        0 12px 28px rgba(24,25,16,0.16);
+      border-radius: 14px;
+      transform: none;
+      max-width: 100%;
+      width: 100%;
+      margin: 52px 0;
+      overflow: hidden;
+    }
+    /* Subtle paper fibre texture */
+    .kraft-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(60,30,5,0.025) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(135deg, rgba(60,30,5,0.02) 0 1px, transparent 1px 7px);
+    }
+
+    .kraft-title {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 1;
+      color: rgba(30, 18, 6, 0.95);
+      margin: 0 0 20px;
+      position: relative;
+      z-index: 1;
+      transform: rotate(-1deg);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .kraft-title .scribble {
+      display: block;
+      width: 100px;
+      height: 8px;
+      margin-top: 2px;
+      color: rgba(30, 18, 6, 0.75);
+    }
+
+    .kraft-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      columns: 2;
+      column-gap: 56px;
+      position: relative;
+      z-index: 1;
+    }
+    .kraft-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .kraft-checklist li:last-child { margin-bottom: 0; }
+
+    .kraft-check {
+      display: inline-block;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(40, 25, 10, 0.75);
+      background: transparent;
+      margin-top: 6px;
+      filter: url(#pencil);
+    }
+
+    .kraft-text {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 1.15;
+      color: rgba(30, 18, 6, 0.92);
+    }
+
+    @media (max-width: 700px) {
+      .kraft-checklist { columns: 1; }
+      .kraft-card { padding: 28px 28px 24px; }
+    }
+
+    /* === Studio Audit inspection board - post-it notes on a critique
+       wall, with hand-drawn scribble circles + sketch arrows + annotations
+       on the ones being flagged. */
+    .inspection-board {
+      width: 100%;
+      margin: 80px 0 56px;
+    }
+
+    .inspection-board-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .inspection-board-label .hand {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-primary);
+      transform: rotate(-1deg);
+    }
+
+    .inspection-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 18px;
+      padding: 24px 0 32px;
+    }
+    @media (max-width: 1100px) {
+      .inspection-grid { grid-template-columns: repeat(4, 1fr); gap: 24px 18px; }
+    }
+    @media (max-width: 700px) {
+      .inspection-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 18px; }
+    }
+
+    .post-it-wrap { position: relative; }
+
+    .post-it {
+      position: relative;
+      background: #F5DF8C;
+      padding: 26px 10px;
+      text-align: center;
+      box-shadow:
+        0 1px 2px rgba(24, 25, 16, 0.10),
+        0 8px 18px rgba(24, 25, 16, 0.14);
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    /* Scattered-tilt rhythm so the notes feel hand-stuck. */
+    .post-it-wrap:nth-child(1) .post-it { transform: rotate(-1.8deg); }
+    .post-it-wrap:nth-child(2) .post-it { transform: rotate(1.2deg);  }
+    .post-it-wrap:nth-child(3) .post-it { transform: rotate(-0.6deg); }
+    .post-it-wrap:nth-child(4) .post-it { transform: rotate(1.6deg);  }
+    .post-it-wrap:nth-child(5) .post-it { transform: rotate(-1.3deg); }
+    .post-it-wrap:nth-child(6) .post-it { transform: rotate(0.8deg);  }
+    .post-it-wrap:nth-child(7) .post-it { transform: rotate(-1.0deg); }
+
+    .post-it .num {
+      font-family: "Caveat", cursive;
+      font-weight: 500;
+      font-size: 15px;
+      color: rgba(24, 25, 16, 0.5);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .post-it .name {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--text-primary);
+      line-height: 1.05;
+    }
+
+    /* Hand-drawn scribble circle around marked post-its */
+    .post-it-scribble {
+      position: absolute;
+      top: -16px; left: -14px; right: -14px; bottom: -16px;
+      pointer-events: none;
+      z-index: 3;
+      color: #C03030;
+    }
+
+    /* Annotation above the marked post-it, with an arrow pointing down */
+    .post-it-annotation {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      color: #C03030;
+    }
+    .annotation-text {
+      font-family: "Caveat", cursive;
+      font-weight: 700;
+      font-size: 22px;
+      white-space: nowrap;
+      line-height: 1;
+      transform: rotate(-3deg);
+    }
+    .post-it-wrap--priority .annotation-text { font-size: 24px; }
+    .annotation-arrow {
+      display: block;
+      width: 26px;
+      height: 28px;
+      margin-top: 2px;
+    }
+
+    .inspection-caption {
+      margin: 36px auto 0;
+      max-width: 800px;
+      text-align: center;
+      font-family: "alverata", "Cormorant Garamond", Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(22px, 2.4vw, 30px);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .inspection-caption em { font-style: italic; color: var(--accent); }
+    .inspection-caption .inspection-caption-leak { font-style: italic; color: #C03030; }
+
+    /* === "Who is this really for?" compare grid === */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      .compare-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+    .compare-col {
+      position: relative;
+      padding: 28px 28px 24px;
+      background: var(--bg-elevated);
+      overflow: hidden;
+    }
+    .compare-col::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      right: 18px;
+      height: 16px;
+      filter: url(#pencil);
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 0;
+    }
+    .compare-col--now::before { background: #C03030; }
+    .compare-col--want::before { background: #5AAA5A; }
+    .compare-col > * { position: relative; z-index: 1; }
+    .compare-heading {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(32px, 3.4vw, 42px);
+      line-height: 1;
+      color: var(--text-primary);
+      margin: 24px 0 20px;
+    }
+    .compare-col--now .compare-heading { color: #B23030; }
+    .compare-col--want .compare-heading { color: #4A8E4A; }
+    .compare-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .compare-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 14px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+    .compare-list li:last-child { margin-bottom: 0; }
+    .compare-col--now .compare-list li::before {
+      content: '✕';
+      position: absolute;
+      left: 2px;
+      top: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #C03030;
+      line-height: 1.55;
+    }
+    .compare-col--want .compare-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 2px;
+      top: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #5AAA5A;
+      line-height: 1.55;
+    }
+
+    /* === "Deliberately different" split: Not this | This instead === */
+    .dd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 36px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .dd-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .dd-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .dd-label {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1;
+      display: inline-block;
+      margin-bottom: 10px;
+      transform: rotate(-1.5deg);
+    }
+    .dd-label-not  { color: #C03030; }
+    .dd-label-this { color: var(--accent); }
+
+    .dd-note {
+      position: relative;
+      background: var(--bg-elevated);
+      padding: 18px 22px;
+      border: 1px solid var(--frame-ink);
+      box-shadow:
+        0 1px 2px rgba(24, 25, 16, 0.05),
+        0 6px 14px rgba(24, 25, 16, 0.06);
+    }
+
+    /* Each left-column note tilts slightly for the pinned-paper feel. */
+    .dd-col-not .dd-note:nth-of-type(1) { transform: rotate(-0.6deg); }
+    .dd-col-not .dd-note:nth-of-type(2) { transform: rotate(0.5deg);  }
+    .dd-col-not .dd-note:nth-of-type(3) { transform: rotate(-0.3deg); }
+    .dd-col-not .dd-note:nth-of-type(4) { transform: rotate(0.4deg);  }
+
+    .dd-note p {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+
+    /* Redline strikethrough on each "not this" line */
+    .dd-col-not .dd-note p {
+      text-decoration: line-through;
+      text-decoration-color: #C03030;
+      text-decoration-thickness: 2px;
+      text-decoration-skip-ink: none;
+      color: var(--text-secondary);
+    }
+
+    /* Small red ✕ pinned at top-left of each "not" note */
+    .dd-col-not .dd-note::before {
+      content: '✕';
+      position: absolute;
+      top: -10px;
+      left: 14px;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #C03030;
+      background: var(--bg-primary);
+      padding: 0 6px;
+      line-height: 1;
+    }
+
+    /* Right-side "this instead" note - one longer block, orange tint,
+       orange handwritten tick stamped at top-left. */
+    .dd-note-this {
+      background: var(--accent-subtle);
+      border-color: var(--accent-border);
+      padding: 24px 26px;
+      transform: rotate(0.4deg);
+    }
+    .dd-note-this::before {
+      content: '✓';
+      position: absolute;
+      top: -10px;
+      left: 14px;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--accent);
+      background: var(--bg-primary);
+      padding: 0 6px;
+      line-height: 1;
+    }
+    .dd-note-this .body-copy p {
+      font-size: 15px;
+      line-height: 1.55;
+      margin: 0 0 10px;
+      color: var(--text-primary);
+    }
+    .dd-note-this .body-copy p:last-child { margin-bottom: 0; }
+
+    /* === OS stage cards === */
+    .choose-title {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(36px, 3.8vw, 48px);
+      line-height: 1;
+      color: var(--text-primary);
+      margin: 0 0 14px;
+    }
+    .choose-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    /* === Studio Library + AI section === */
+    .library-title {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(44px, 4.6vw, 62px);
+      line-height: 1;
+      color: var(--text-primary);
+      margin: 0 0 20px;
+    }
+    .library-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .library-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .platform-mockup {
+      display: block;
+      width: 100%;
+      max-width: 1000px;
+      margin: 48px auto 0;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow:
+        0 1px 2px rgba(24,25,16,0.08),
+        0 24px 60px rgba(24,25,16,0.18);
+    }
+    .platform-mockup img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .os-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .os-grid-heading {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(42px, 4.4vw, 56px);
+      line-height: 1.1;
+      text-align: center;
+      color: var(--text-primary);
+      margin: 0 auto 40px;
+      max-width: var(--col);
+    }
+    .os-stage { position: relative; background: var(--bg-elevated); padding: 22px 20px; overflow: hidden; }
+    .os-stage::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      right: 14px;
+      height: 16px;
+      filter: url(#pencil);
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 0;
+    }
+    .os-grid .os-stage > * { position: relative; z-index: 1; }
+    .os-grid .os-stage:nth-child(1)::before { background: #C03030; }
+    .os-grid .os-stage:nth-child(2)::before { background: #E6BE3C; }
+    .os-grid .os-stage:nth-child(3)::before { background: #F2A33B; }
+    .os-grid .os-stage:nth-child(4)::before { background: #5AAA5A; }
+    .os-stage .step-no {
+      font-family: "Caveat", cursive;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--text-muted);
+      transform: rotate(-2deg);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    .os-stage h4 {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 44px;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1;
+      color: var(--accent);
+      margin: 0 0 14px;
+    }
+    .os-stage .os-title {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px;
+    }
+    .os-stage .os-body {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0 0 12px;
+    }
+    .os-stage .os-tags { font-size: 12px; line-height: 1.5; color: var(--text-muted); }
+    .os-stage .os-tags strong { color: var(--text-primary); font-weight: 500; display: block; margin-bottom: 4px; }
+    @media (max-width: 900px) { .os-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .os-grid { grid-template-columns: 1fr; } }
+
+    /* === Guarantees section: body-font emphasis + handwritten notes
+       + redline scribble === */
+    .guarantees-body-lead {
+      font-family: "DM Sans", sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 1.35;
+      color: var(--text-primary);
+      margin: 0 0 24px;
+      position: relative;
+    }
+
+    /* Handwritten heading with a red highlighter sweep behind the text */
+    .problem-highlight {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(32px, 3.4vw, 44px);
+      line-height: 1.2;
+      letter-spacing: 0;
+      color: var(--text-primary);
+      margin: 0 0 24px;
+    }
+    .problem-highlight .highlight,
+    .text-highlight {
+      background-image: linear-gradient(
+        180deg,
+        transparent 48%,
+        rgba(192, 48, 48, 0.3) 48%,
+        rgba(192, 48, 48, 0.3) 92%,
+        transparent 92%
+      );
+      padding: 0 8px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+    .text-highlight--green {
+      background-image: linear-gradient(
+        180deg,
+        transparent 48%,
+        rgba(90, 170, 90, 0.38) 48%,
+        rgba(90, 170, 90, 0.38) 92%,
+        transparent 92%
+      );
+      padding: 0 8px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+
+    /* Big handwritten pulled-out lines (replacing the callout + big-line) */
+    .guarantees-handwriting {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: clamp(32px, 3.4vw, 44px);
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin: 32px 0;
+    }
+    .guarantees-handwriting em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    /* Handwritten margin note */
+    .hand-note-right {
+      position: absolute;
+      left: calc(100% + 24px);
+      top: 0;
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 1.1;
+      color: var(--text-primary);
+      transform: rotate(-3deg);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    @media (max-width: 1100px) {
+      .hand-note-right { display: none; }
+    }
+
+    /* Red scribble circle around an inline word */
+    .redline-wrap {
+      position: relative;
+      display: inline-block;
+      padding: 0 6px;
+    }
+    .redline-scribble {
+      position: absolute;
+      top: -8px; bottom: -8px; left: -4px; right: -4px;
+      width: calc(100% + 8px);
+      height: calc(100% + 16px);
+      pointer-events: none;
+      color: #C03030;
+      z-index: 0;
+    }
+    .redline-wrap em {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* === Studio Cycle loop diagram - 4 nodes at compass points,
+       curved SVG arrows connecting them clockwise. === */
+    .cycle-loop {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+      height: 540px;
+      margin: 96px auto 96px;
+    }
+    .cycle-arrows {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      color: var(--accent);
+      pointer-events: none;
+    }
+    .cycle-arrows path { filter: url(#pencil); }
+
+    .cycle-node {
+      position: absolute;
+      width: 190px;
+      padding: 18px 20px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--frame-ink);
+      text-align: center;
+      box-shadow:
+        0 1px 2px rgba(24, 25, 16, 0.05),
+        0 6px 16px rgba(24, 25, 16, 0.08);
+      z-index: 1;
+    }
+    .cycle-node h4 {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 34px;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1;
+      color: var(--accent);
+      margin: 0 0 8px;
+    }
+    .cycle-node p {
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .cycle-node--top    { top: 0;    left: 50%; transform: translateX(-50%); }
+    .cycle-node--right  { top: 50%; right: 0;   transform: translateY(-50%); }
+    .cycle-node--bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+    .cycle-node--left   { top: 50%; left: 0;    transform: translateY(-50%); }
+
+    @media (max-width: 760px) {
+      .cycle-loop {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 420px;
+      }
+      .cycle-arrows { display: none; }
+      .cycle-node {
+        position: static;
+        width: 100%;
+        transform: none;
+        top: auto; right: auto; bottom: auto; left: auto;
+      }
+    }
+
+    /* === Summary vertical flow === */
+    .flow {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 10px;
+      max-width: 100%;
+    }
+    .flow-step {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 20px 22px;
+      background: var(--bg-elevated);
+    }
+    .flow-step h4 {
+      font-family: "DM Sans", sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    .flow-step .step-title {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 1.25;
+      margin: 0 0 6px;
+    }
+    .flow-step .step-sub { font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+    .flow-arrow {
+      color: var(--accent);
+      font-size: 22px;
+      line-height: 1;
+      padding: 0;
+      align-self: center;
+      flex: 0 0 auto;
+    }
+    @media (max-width: 900px) {
+      .flow { flex-direction: column; }
+      .flow-arrow { align-self: flex-start; padding-left: 24px; }
+    }
+
+    /* === Success cards === */
+    .success-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .success-card { position: relative; background: var(--bg-elevated); padding: 22px 20px; }
+    .success-card .num {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: 36px;
+      color: var(--accent);
+      line-height: 1;
+      opacity: 0.5;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .success-card h4 {
+      font-family: "DM Sans", sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    .success-card p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin: 0 0 8px;
+    }
+    @media (max-width: 900px) { .success-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .success-grid { grid-template-columns: 1fr; } }
+
+    /* === Tier cards === */
+    .tier-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .tier-card { position: relative; background: var(--bg-elevated); padding: 32px 28px; }
+    .tier-card.tier-pro { background: var(--accent-subtle); }
+    .tier-card.tier-pro .card-border { border-color: var(--accent-border); }
+    .tier-card .tier-tag {
+      display: inline-block;
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-tint);
+      margin-bottom: 14px;
+    }
+    .tier-card h3 {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+    .tier-card h3 em { font-style: italic; color: var(--accent); }
+    .tier-card .tier-lede {
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin: 0 0 20px;
+    }
+    .tier-card .tier-list { list-style: none; padding: 0; margin: 0; }
+    .tier-card .tier-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .tier-card .tier-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 7px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .tier-card .tier-list li strong { font-weight: 600; display: block; margin-bottom: 2px; }
+    .tier-card .tier-list li span { color: var(--text-secondary); font-size: 13px; line-height: 1.45; display: block; }
+    @media (max-width: 900px) { .tier-grid { grid-template-columns: 1fr; } }
+
+    /* === Pricing table === */
+    .pricing {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--bg-primary);
+      position: relative;
+      border: 1px solid var(--frame-ink);
+    }
+    .pricing-wrap { position: relative; overflow-x: auto; }
+    .pricing th, .pricing td {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pricing th {
+      font-family: "DM Sans", sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+    }
+    .pricing th.tier-h { font-family: "alverata", serif; font-weight: 600; font-size: 18px; letter-spacing: -0.015em; text-transform: none; text-align: center; color: var(--text-primary); }
+    .pricing th.tier-h em { font-style: italic; color: var(--accent); }
+    .pricing td.tier-cell { text-align: center; font-size: 15px; }
+    .pricing tr:last-child th, .pricing tr:last-child td { border-bottom: none; }
+    .pricing .check { color: var(--accent); font-weight: 600; }
+    .pricing .dash { color: var(--text-muted); }
+    .pricing .price-row td { font-weight: 600; font-size: 16px; background: var(--bg-elevated); }
+    .pricing .total-row td { font-weight: 700; font-size: 18px; background: var(--accent-tint); color: var(--text-primary); }
+    .pricing .total-row td.tier-cell em { font-style: italic; color: var(--accent); font-weight: 600; }
+    .pricing td.row-label { font-weight: 500; }
+
+    /* === Scarcity callout === */
+    .scarcity {
+      position: relative;
+      padding: 32px 32px;
+      background: var(--accent-subtle);
+      text-align: left;
+    }
+    .scarcity .card-border { border-color: var(--accent-border); }
+    .scarcity .spots {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: clamp(42px, 5vw, 68px);
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+    }
+    .scarcity .spots em { font-style: italic; }
+    .scarcity .month {
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    /* === Steps numbered cards === */
+    .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .step-card { position: relative; background: var(--bg-elevated); padding: 28px; }
+    .step-card .step-num {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 56px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+    .step-card h4 {
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 1;
+      margin: 0 0 10px;
+    }
+    .step-card p { font-size: 14px; line-height: 1.55; color: var(--text-primary); margin: 0 0 10px; }
+    @media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+
+    /* === CTA pill === */
+    .cta-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 56px;
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--accent);
+      color: var(--text-primary);
+      font-family: "Caveat", "DM Sans", cursive;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1;
+      padding: 14px 36px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      border: 1px solid var(--text-primary);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--text-primary);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+    }
+    .cta:hover {
+      background: var(--accent-hover);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--text-primary);
+    }
+    .cta .arrow { display: inline-block; transition: transform 0.2s ease; }
+    .cta:hover .arrow { transform: translateX(4px); }
+
+    /* === Big attention line === */
+    .big-line {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: clamp(24px, 2.8vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .big-line em { font-style: italic; color: var(--accent); }
+
+    /* === Footer === */
+    .footer {
+      padding-top: 24px;
+      border-top: 1px dashed var(--frame-ink);
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 72px;
+    }
+    .footer a { color: var(--text-muted); text-decoration: none; }
+    .footer a:hover { color: var(--text-secondary); }
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .footer-nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-link {
+      background: none;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+    .footer-link:hover { color: var(--text-primary); }
+    .footer-contact {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0 0 12px;
+    }
+    .footer-contact a { color: var(--accent); }
+    .footer-meta {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0;
+      max-width: 760px;
+    }
+    @media (max-width: 560px) {
+      .footer-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    /* === Policy modal === */
+    .policy-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 20px;
+      overflow-y: auto;
+    }
+    .policy-modal.is-open { display: flex; }
+    .policy-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(24, 25, 16, 0.55);
+      backdrop-filter: blur(2px);
+    }
+    .policy-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 720px;
+      background: var(--bg-primary);
+      border: 1px solid var(--frame-ink);
+      border-radius: 8px;
+      padding: 36px 40px 40px;
+      box-shadow: 0 24px 60px rgba(24, 25, 16, 0.25);
+      max-height: calc(100vh - 96px);
+      overflow-y: auto;
+    }
+    .policy-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--frame-ink);
+      border-radius: 999px;
+      font-size: 20px;
+      line-height: 1;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .policy-close:hover { background: rgba(24, 25, 16, 0.06); }
+    .policy-article h2 {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 1.2;
+      margin: 0 0 6px;
+      color: var(--text-primary);
+    }
+    .policy-article .policy-updated {
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 0 0 20px;
+    }
+    .policy-article h3 {
+      font-family: "alverata", serif;
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 1.3;
+      margin: 22px 0 8px;
+      color: var(--text-primary);
+    }
+    .policy-article p,
+    .policy-article li {
+      font-family: "DM Sans", sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0 0 10px;
+    }
+    .policy-article ul {
+      padding-left: 20px;
+      margin: 0 0 12px;
+    }
+    .policy-article li { margin-bottom: 6px; }
+    .policy-article strong { color: var(--text-primary); font-weight: 600; }
+    .policy-article a { color: var(--accent); text-decoration: underline; }
+
+    /* === Cookie banner === */
+    .cookie-banner {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 50;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      width: 300px;
+      padding: 12px 14px;
+      background: var(--bg-primary);
+      border: 1px solid var(--frame-ink);
+      border-radius: 8px;
+      box-shadow: 0 10px 24px rgba(24, 25, 16, 0.16);
+    }
+    .cookie-banner.is-open { display: flex; }
+    .cookie-banner p {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--text-primary);
+    }
+    .cookie-banner a { color: var(--accent); text-decoration: underline; }
+    .cookie-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .cookie-btn {
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+    }
+    .cookie-btn--accept {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: 1px solid var(--text-primary);
+    }
+    .cookie-btn--accept:hover { background: var(--accent); border-color: var(--accent); color: var(--text-primary); }
+    .cookie-btn--decline {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--frame-ink);
+    }
+    .cookie-btn--decline:hover { color: var(--text-primary); border-color: var(--text-primary); }
+    @media (max-width: 560px) {
+      .cookie-banner { width: auto; left: 12px; right: 12px; bottom: 12px; }
+    }
+
+    /* === Responsive === */
+    @media (max-width: 900px) {
+      :root { --col: calc(100vw - 72px); --col-prose: calc(100vw - 72px); }
+      .page { padding: 24px 36px 24px; }
+      .section { padding: 56px 0; }
+      .frame { inset: 14px; }
+    }
+    @media (max-width: 560px) {
+      .page { padding: 20px 20px 20px; }
+      .frame { inset: 10px; }
+      .pricing th, .pricing td { padding: 10px 12px; font-size: 13px; }
+      .h-hero { font-size: 20px; line-height: 1.4; margin-bottom: 8px; }
+      .h-hero br { display: none; }
+      .hero-tagline { font-size: 20px; margin-bottom: 12px; white-space: nowrap; }
+      .hero-cta { margin-top: 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding-top: 160px; }
+    }
+    @media (max-width: 400px) {
+      .h-hero { font-size: 18px; line-height: 1.45; }
+      .hero-tagline { font-size: 18px; }
+      .hero { padding-top: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pencil roughen filter -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="pencil" x="-2%" y="-2%" width="104%" height="104%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="4" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="bg-blobs"></div>
+  <div class="bg-dots"></div>
+
+  <div class="frame">
+    <span class="corner-cross tl"></span>
+    <span class="corner-cross tr"></span>
+    <span class="corner-cross bl"></span>
+    <span class="corner-cross br"></span>
+  </div>
+
+  <div class="page">
+
+    <!-- Architect title block — part of the hero frame -->
+    <div class="wins-banner">
+      <div class="win-cell win-cell--meta">
+        <span class="win-cell-label">Name</span>
+        <span class="win-cell-value">Harry Needham</span>
+      </div>
+      <div class="win-cell win-cell--meta">
+        <span class="win-cell-label">Project</span>
+        <span class="win-cell-value">Soulmate Studio</span>
+      </div>
+      <div class="win-cell win-cell--notes">
+        <span class="win-cell-label">Notes</span>
+        <span class="win-cell-value"><em>$6.5M+</em> tracked wins &nbsp;·&nbsp; <em>103+</em> niches &nbsp;·&nbsp; <em>17</em> languages &nbsp;·&nbsp; <em>54</em> countries &nbsp;·&nbsp; <em>6</em> continents</span>
+      </div>
+    </div>
+
+    <!-- Chrome -->
+    <header class="chrome">
+      <span></span>
+      <a class="chrome-help" href="../" aria-label="Back to walkthrough">←</a>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- 1. HERO                                                       -->
+    <!-- ============================================================ -->
+    <section class="hero">
+      <div class="brand-wordmark">
+        <span><em>Soulmate</em> Studio<sup style="font-size:0.35em; opacity:0.6; font-weight:500; vertical-align:top;">™</sup></span>
+        <svg class="scribble" viewBox="0 0 180 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 6 C 30 2, 60 9, 95 4 S 160 7, 177 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h1 class="h-hero">
+        Your best clients buy the <em>easiest</em>, pay the <em>most</em>,<br/>
+        get the <em>best</em> results and stay the <em>longest</em>.
+      </h1>
+
+      <div class="hero-tagline">And I help you get more of them.</div>
+
+      <a class="hero-cta" href="#enter-the-studio">
+        Enter the Studio
+        <span class="arrow">↓</span>
+      </a>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 2. NARRATIVE                                                  -->
+    <!-- ============================================================ -->
+    <section class="section" id="enter-the-studio" style="padding-bottom: 0;">
+      <div class="section-prose">
+        <p class="hero-soulmate" style="margin-bottom: 32px;">
+          I call them <em>Soulmate&nbsp;Clients<sup style="font-size:0.4em; opacity:0.55; font-weight:500; vertical-align:top;">™</sup></em>.
+        </p>
+        <div class="narrative-block">
+          <p>You've probably already had them.</p>
+          <p>The client who found you and just... got it.</p>
+          <p>They consumed your work.</p>
+          <p>Understood how you thought.</p>
+          <p>Reached out already wanting what you sold.</p>
+          <p>They bought without hassle.</p>
+          <p>Implemented.</p>
+          <p>Got results.</p>
+          <p>Stayed.</p>
+          <p>And were amazing clients to work with.</p>
+        </div>
+
+        <p class="guarantees-handwriting">
+          They're the clients you'd happily
+          <span class="redline-wrap"><svg class="redline-scribble" viewBox="0 0 180 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="90" cy="30" rx="86" ry="24" fill="none" stroke="currentColor" stroke-width="2.4" transform="rotate(-4 90 30)"/><ellipse cx="90" cy="30" rx="88" ry="22" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6" transform="rotate(5 90 30)"/></svg><em>clone 100 times</em></span>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 3. THE PROBLEM                                                -->
+    <!-- ============================================================ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-prose">
+        <h2 class="problem-highlight">
+          <span class="highlight">The problem? They're still too random.</span>
+        </h2>
+        <div class="body-copy">
+          <p>One month you attract exactly the type of people you want.</p>
+          <p>The next, your content gets plenty of attention but it doesn't turn into the kind of buyer you actually want.</p>
+          <p>Or leads come in...</p>
+          <p>But now you're answering endless questions, following up, handling objections and trying to turn somebody into the right client when they probably weren't the right client in the first place.</p>
+          <p>That creates a strange kind of growth.</p>
+          <p>More <em>attention</em>.</p>
+          <p>More <em>leads</em>.</p>
+          <p>More <em>activity</em>.</p>
+          <p>But not necessarily a better business.</p>
+          <p>Because the goal isn't simply to attract <strong>more people</strong>.</p>
+          <p>It's to increase the percentage of people entering your world who are the kind of people you'd genuinely want 100 more of.</p>
+          <p>And then make it easier for those people to buy.</p>
+        </div>
+      </div>
+
+      <p class="guarantees-handwriting" style="margin-top: 32px;">
+        <em>Soulmate Studio</em><sup style="font-size:0.35em; opacity:0.6; font-weight:500; vertical-align:top;">™</sup> exists to help you do that.
+      </p>
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 3.5 WHO IS THIS REALLY FOR?                                   -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose" style="text-align: center; margin: 0 auto 40px;">
+        <h2 class="h-sect">Who is this <em>REALLY</em> for?</h2>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-col compare-col--now">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h3 class="compare-heading">Right now…</h3>
+            <ul class="compare-list">
+              <li>You've been stuck at the same income level for too long and you can feel the next leap is right there.</li>
+              <li>You want to reach it without sacrificing your life and your sanity to get there.</li>
+              <li>You're at (or close to) capacity on sales and coaching calls, and you can't see how this version of your business scales any further.</li>
+              <li>Sales have become harder to make, with no clear reason why.</li>
+              <li>You've maybe fallen a little out of love with the business… and you want that spark back.</li>
+              <li>Your leads are inconsistent - in quality and volume. No system. You wake up and pray that today brings a few good ones.</li>
+              <li>You've built a real audience. You can see the right people follow you. But not enough of them actually buy.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="compare-col compare-col--want">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h3 class="compare-heading">What you want:</h3>
+            <ul class="compare-list">
+              <li>To spend your time making content you're proud of, working with people you love, with time and energy left for the rest of your life.</li>
+              <li>The option to stop taking sales calls altogether - or at least make them faster and easier.</li>
+              <li>One clear lead engine that brings consistent, predictable volume and quality, every week.</li>
+              <li>To always know exactly where your next client is coming from and the exact inputs that produce more of them.</li>
+              <li>Content that attracts the people who buy the easiest, pay the most, and are the best to work with.</li>
+              <li>To wake up to messages from your Soulmate Clients asking, "how can I work with you?!"</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-center">
+        <span class="text-highlight--green">I've been through all of this. I've tried virtually every way to fix it. And the thing that finally gave me the best balance of everything I wanted - the income, the freedom, and the love for the business - was learning to design everything I do around one person: my <em>Soulmate Client</em>.</span>
+      </p>
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 4. WHAT IS SOULMATE STUDIO?                                   -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect">What is <em>Soulmate Studio</em><sup style="font-size:0.4em; opacity:0.6; font-weight:500; vertical-align:top;">™</sup>?</h2>
+        <div class="body-copy">
+          <p>Soulmate Studio is my private digital business studio for established coaches, consultants and experts.</p>
+          <p>You have expertise. Clients. Proof. A solid offer. An audience or existing source of demand.</p>
+          <p>You're not starting from zero.</p>
+          <p>But somewhere between people discovering you and becoming a great client, <strong>something isn't working as well as it should.</strong></p>
+        </div>
+      </div>
+
+      <div class="kraft-card">
+        <ul class="kraft-checklist">
+          <li><span class="kraft-check"></span><span class="kraft-text">Maybe you're attracting too many of the wrong people.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Maybe the right people follow you but never become leads.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Maybe leads show interest but never buy.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Maybe your offer is harder to sell than it should be.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Maybe people buy, but they're not truly the people you want.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Or maybe you know the business is capable of more, but you can't clearly see which thing deserves your attention next.</span></li>
+        </ul>
+      </div>
+
+      <p class="body-center">
+        <span class="text-highlight">That's <em>where we start</em>. And it's <em>deliberately different</em> from most coaching programmes.</span>
+      </p>
+
+      <div class="dd-grid">
+        <!-- LEFT: Not this - crossed-out, pinned-paper, redlined -->
+        <div class="dd-col dd-col-not">
+          <span class="dd-label dd-label-not">not this</span>
+          <div class="dd-note">
+            <p>I'm not going to hand you my business model and tell you to copy it.</p>
+          </div>
+          <div class="dd-note">
+            <p>I'm not giving you hundreds of videos and expecting you to figure out which 12 actually matter.</p>
+          </div>
+          <div class="dd-note">
+            <p>I'm not forcing you through a one-size-fits-all roadmap and telling you the only reason it didn't work is because you didn't follow it hard enough.</p>
+          </div>
+          <div class="dd-note">
+            <p>I'm not giving you another giant stack of funnels, playbooks and tactics to install because "this is how we do it."</p>
+          </div>
+        </div>
+
+        <!-- RIGHT: This instead - architect note -->
+        <div class="dd-col dd-col-this">
+          <span class="dd-label dd-label-this">this instead</span>
+          <div class="dd-note dd-note-this">
+            <div class="body-copy">
+              <p>You bring me the business you've already built.</p>
+              <p>We look at it together.</p>
+              <p>Analyse it. Strategise. Workshop. Design. Build. Test.</p>
+              <p>Then look again.</p>
+              <p>I trained to be an architect before I became a coach, and this is much closer to how I've always naturally worked.</p>
+              <p>You don't walk onto a site with a predetermined answer.</p>
+              <p>You understand what already exists.</p>
+              <p>You understand who you're designing for.</p>
+              <p>You identify the real constraint.</p>
+              <p>Then you design the right solution for that project.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 5. YOUR FIRST 90 DAYS                                         -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect">Your <em>first 90 days</em>.</h2>
+        <div class="body-copy">
+          <p>Your first 90 days inside Soulmate Studio aren't about hitting every big business goal you've got.</p>
+          <p>They're about creating a clear, measurable shift in the quality of demand coming into the business and how easily that demand turns into buyers.</p>
+          <p>Depending on where the biggest constraint is, that might look like:</p>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top: 28px;">
+        <div class="card"><div class="card-border"></div><div class="card-content"><h3 class="h-card">More of the right people <em>finding you</em>.</h3></div></div>
+        <div class="card"><div class="card-border"></div><div class="card-content"><h3 class="h-card">More qualified leads <em>raising their hand</em>.</h3></div></div>
+        <div class="card"><div class="card-border"></div><div class="card-content"><h3 class="h-card">More existing followers turning into <em>active buyers</em>.</h3></div></div>
+        <div class="card"><div class="card-border"></div><div class="card-content"><h3 class="h-card">Less chasing, convincing and <em>follow-up</em>.</h3></div></div>
+        <div class="card"><div class="card-border"></div><div class="card-content"><h3 class="h-card"><em>Shorter</em> sales cycles.</h3></div></div>
+        <div class="card"><div class="card-border"></div><div class="card-content"><h3 class="h-card">A higher percentage of the right people <em>saying yes</em>.</h3></div></div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 36px;">
+        <div class="body-copy">
+          <p>Or simply more clients coming from the audience and demand you already have.</p>
+          <p>The exact result will depend on where your business is leaking right now.</p>
+          <p>But the aim is the same:</p>
+        </div>
+      </div>
+
+      <p class="body-center">
+        <span class="text-highlight--green">By the end of your first 90 days, you should be able to point to <em>clear evidence</em> that more Soulmate Clients are following, bingeing and buying from you.</span>
+      </p>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 6. STUDIO AUDIT - STEP 1                                      -->
+    <!-- ============================================================ -->
+    <section class="section section--step">
+      <div class="section-prose">
+        <span class="step-pill">01</span>
+        <h2 class="h-sect">We start with your <em>Studio Audit</em><sup style="font-size:0.4em; opacity:0.6; font-weight:500; vertical-align:top;">™</sup>.</h2>
+        <div class="body-copy">
+          <p>Your first interaction inside Soulmate Studio is a private Studio Audit with me (Harry).</p>
+          <p>Before we meet, I'll look through the relevant parts of your business:</p>
+        </div>
+      </div><!-- /section-prose, close so the inspection board can span full column -->
+
+      <!-- Inspection board - post-it notes on a critique wall, with
+           scribble circles + sketch arrows marking leaks, bottlenecks
+           and priority. Full-column width, same as the OS stage grid. -->
+      <div class="inspection-board">
+          <div class="inspection-board-label">
+            <span>On the table</span>
+            <span class="hand">we go piece by piece →</span>
+          </div>
+
+          <div class="inspection-grid">
+            <!-- 01 -->
+            <div class="post-it-wrap">
+              <div class="post-it">
+                <span class="num">01</span>
+                <span class="name">Positioning</span>
+              </div>
+            </div>
+
+            <!-- 02 - leak -->
+            <div class="post-it-wrap post-it-wrap--leak">
+              <div class="post-it">
+                <svg class="post-it-scribble" viewBox="0 0 120 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <ellipse cx="60" cy="45" rx="56" ry="40" fill="none" stroke="currentColor" stroke-width="2.4" transform="rotate(-6 60 45)"/>
+                  <ellipse cx="60" cy="45" rx="58" ry="38" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55" transform="rotate(5 60 45)"/>
+                </svg>
+                <span class="num">02</span>
+                <span class="name">Messaging</span>
+              </div>
+            </div>
+
+            <!-- 03 -->
+            <div class="post-it-wrap">
+              <div class="post-it">
+                <span class="num">03</span>
+                <span class="name">Content</span>
+              </div>
+            </div>
+
+            <!-- 04 - priority -->
+            <div class="post-it-wrap post-it-wrap--priority">
+              <div class="post-it">
+                <svg class="post-it-scribble" viewBox="0 0 120 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <ellipse cx="60" cy="45" rx="56" ry="40" fill="none" stroke="currentColor" stroke-width="2.8" transform="rotate(-4 60 45)"/>
+                  <ellipse cx="60" cy="45" rx="58" ry="38" fill="none" stroke="currentColor" stroke-width="2" opacity="0.75" transform="rotate(6 60 45)"/>
+                  <ellipse cx="60" cy="45" rx="54" ry="42" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.5" transform="rotate(-10 60 45)"/>
+                </svg>
+                <span class="num">04</span>
+                <span class="name">Offer</span>
+              </div>
+            </div>
+
+            <!-- 05 - bottleneck -->
+            <div class="post-it-wrap post-it-wrap--bottleneck">
+              <div class="post-it">
+                <svg class="post-it-scribble" viewBox="0 0 120 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <ellipse cx="60" cy="45" rx="56" ry="40" fill="none" stroke="currentColor" stroke-width="2.4" transform="rotate(4 60 45)"/>
+                  <ellipse cx="60" cy="45" rx="58" ry="38" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55" transform="rotate(-6 60 45)"/>
+                </svg>
+                <span class="num">05</span>
+                <span class="name">Funnel</span>
+              </div>
+            </div>
+
+            <!-- 06 -->
+            <div class="post-it-wrap">
+              <div class="post-it">
+                <span class="num">06</span>
+                <span class="name">Sales process</span>
+              </div>
+            </div>
+
+            <!-- 07 -->
+            <div class="post-it-wrap">
+              <div class="post-it">
+                <span class="num">07</span>
+                <span class="name">Numbers</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="inspection-caption">
+            We find <span class="inspection-caption-leak">every meaningful leak</span>, then identify the one worth <em>fixing first</em>.
+          </p>
+        </div>
+
+      <div class="section-prose">
+        <div class="body-copy" style="margin-top: 36px;">
+          <p>And anything else that helps me understand what you've already built.</p>
+          <p>Then we put the business on the table…</p>
+          <p><strong>And we rip it wide open.</strong></p>
+          <p>The goal isn't to just solve the problems you're currently aware of.</p>
+          <p>It's to identify <strong>every meaningful leak, bottleneck and point of friction</strong> across the entire business.</p>
+        </div>
+        <div class="cadence" style="margin-top: 16px; margin-bottom: 16px;">
+          <span>Where the wrong people are entering.</span>
+          <span>Where the right people are dropping off.</span>
+          <span>Where demand is getting stuck.</span>
+          <span>Where buyers are hesitating.</span>
+          <span>Where complexity is slowing things down.</span>
+          <span>And where you're putting effort into something that simply isn't the real constraint.</span>
+        </div>
+        <div class="body-copy">
+          <p>To do that, we use the <strong>Soulmate Client OS™</strong>.</p>
+          <p>This isn't a four-step roadmap you have to follow in order.</p>
+          <p>It's the diagnostic system we use to analyse the four stages of your buyer journey and work out <strong>where the biggest opportunity sits right now.</strong></p>
+        </div>
+      </div>
+
+      <!-- 4 OS stage cards -->
+      <h3 class="os-grid-heading" style="margin-top: 80px;">Soulmate Client OS</h3>
+      <div class="os-grid" style="margin-bottom: 80px;">
+        <div class="os-stage">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <span class="step-no">01</span>
+            <h4>Attract</h4>
+            <p class="os-title">How to bring more of the <em style="font-style: italic; color: var(--accent);">right</em> people, for the right reasons, into your world.</p>
+            <p class="os-body">Instead of chasing more traffic for the sake of traffic, we increase the percentage of potential Soulmate Clients entering in the first place.</p>
+            <p class="os-tags"><strong>What we might work on here:</strong>Soul Content™, messaging, positioning, content strategy and audience growth strategy.</p>
+          </div>
+        </div>
+        <div class="os-stage">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <span class="step-no">02</span>
+            <h4>Align</h4>
+            <p class="os-title">How to make the right people become <em style="font-style: italic; color: var(--accent);">pre-sold</em> before they ever reach out.</p>
+            <p class="os-body">Instead of simply proving expertise, we build alignment around the <strong>5 Agreements™</strong> - so the right people already agree with how you see their problem, what they need, and why your way is the right way to solve it.</p>
+            <p class="os-tags"><strong>What we might work on here:</strong>Positioning, messaging, brand identity, content strategy, your core ideas, mechanisms, proof marketing, long form assets and lead magnets.</p>
+          </div>
+        </div>
+        <div class="os-stage">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <span class="step-no">03</span>
+            <h4>Activate</h4>
+            <p class="os-title">How to turn aligned, but passive, followers into <em style="font-style: italic; color: var(--accent);">active buyers</em>.</p>
+            <p class="os-body">Instead of endlessly nurturing people who are already convinced, we create pathways for existing demand to turn into buying intent.</p>
+            <p class="os-tags"><strong>What we might work on here:</strong>Your Anti-Funnel™, lead magnets, email strategy, campaigns, conversion assets and the pathways that move people from consuming to raising their hand.</p>
+          </div>
+        </div>
+        <div class="os-stage">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <span class="step-no">04</span>
+            <h4>Convert</h4>
+            <p class="os-title">How to make buying from you <em style="font-style: italic; color: var(--accent);">easier and faster</em>.</p>
+            <p class="os-body">Instead of relying on more persuasion, we remove the unnecessary friction between wanting what you sell and actually buying it.</p>
+            <p class="os-tags"><strong>What we might work on here:</strong>Easy Yes Offer™, offer design, offer doc creation, packaging, sales call pathway, objection prevention and the overall sales process.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 44px;">
+        <h3 class="h-card" style="font-size: 20px;">By the end of your Studio Audit, you'll know:</h3>
+        <div class="cadence" style="margin-top: 10px;">
+          <span>Where the biggest leaks are across your buyer journey.</span>
+          <span>Which one deserves our attention first.</span>
+          <span>Why we're prioritising it.</span>
+          <span>What we are deliberately <strong>not</strong> fixing yet.</span>
+          <span>And the first Studio Project we'll use to create movement.</span>
+        </div>
+        <div class="body-copy" style="margin-top: 20px;">
+          <p>That becomes your starting point.</p>
+          <p>For some businesses, that will be Attract.</p>
+          <p>For others, Align.</p>
+          <p>For a lot of established businesses, it may be Activate.</p>
+          <p>Because they already have Soulmate Clients sitting passively inside their audience.</p>
+          <p>More traffic wouldn't solve the problem.</p>
+          <p>Activating existing demand might.</p>
+          <p>But that is never assumed in advance.</p>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 32px;">
+        <h2 class="problem-highlight">
+          <span class="highlight">We <em>diagnose</em> before we prescribe.</span>
+        </h2>
+      </div>
+
+      <div class="section-prose" style="margin-top: 24px;">
+        <div class="body-copy">
+          <p>And once we know where the leverage is…</p>
+          <p>We begin your first <strong>Studio Project™.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 7. YOUR STUDIO PROJECTS - STEP 2                              -->
+    <!-- ============================================================ -->
+    <section class="section section--step">
+      <div class="section-prose">
+        <span class="step-pill">02</span>
+        <h2 class="h-sect">Your <em>Studio Projects</em><sup style="font-size:0.4em; opacity:0.6; font-weight:500; vertical-align:top;">™</sup>.</h2>
+        <div class="body-copy">
+          <p>There is no generic, pre-determined roadmap inside Soulmate Studio.</p>
+          <p>Your roadmap emerges from what your business actually needs.</p>
+          <p>Your first Studio Project might be:</p>
+        </div>
+      </div>
+
+      <div class="kraft-card">
+        <h4 class="kraft-title">
+          <span>Projects</span>
+          <svg class="scribble" viewBox="0 0 100 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 5 C 18 1, 36 7, 54 3 S 90 6, 98 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </h4>
+        <ul class="kraft-checklist">
+          <li><span class="kraft-check"></span><span class="kraft-text">Repositioning yourself.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Redesigning an offer.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Activating a dormant audience.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Improving lead quality.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Building a stronger buyer journey.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Creating a new campaign.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Fixing content that gets followers but not buyers.</span></li>
+          <li><span class="kraft-check"></span><span class="kraft-text">Or something completely different.</span></li>
+        </ul>
+      </div>
+
+      <div class="section-prose" style="margin-top: 36px;">
+        <div class="body-copy">
+          <p>At any one time, we focus on the project that gives us the best combination of:</p>
+          <p style="color: #C03030;">Impact.</p>
+          <p style="color: #C03030;">Speed.</p>
+          <p style="color: #C03030;">Leverage.</p>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 36px;">
+        <div class="body-copy">
+          <p>For one person, their first 90 days might include several projects.</p>
+          <p>For somebody else, one major project may deserve the entire 90 days.</p>
+          <p>That's the point.</p>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 32px;">
+        <h2 class="problem-highlight">
+          <span class="highlight">The work is designed around <em>your business</em>.<br/>Not your business around <em>the Studio</em>.</span>
+        </h2>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 8. STUDIO CYCLE - STEP 3                                      -->
+    <!-- ============================================================ -->
+    <section class="section section--step">
+      <div class="section-prose">
+        <span class="step-pill">03</span>
+        <h2 class="h-sect">Every Studio Project follows the <em>Studio Cycle</em><sup style="font-size:0.4em; opacity:0.6; font-weight:500; vertical-align:top;">™</sup>.</h2>
+      </div>
+
+      <!-- Studio Cycle looping diagram -->
+      <div class="cycle-loop">
+        <svg class="cycle-arrows" viewBox="0 0 640 540" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <marker id="cycle-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 Z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <!-- Clockwise: Survey → Design → Build → Test → Survey -->
+          <path d="M 410 80 Q 560 110, 530 240"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            marker-end="url(#cycle-arrow)"/>
+          <path d="M 530 320 Q 560 450, 400 470"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            marker-end="url(#cycle-arrow)"/>
+          <path d="M 220 470 Q 80 450, 110 320"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            marker-end="url(#cycle-arrow)"/>
+          <path d="M 110 240 Q 80 110, 230 80"
+            fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+            marker-end="url(#cycle-arrow)"/>
+        </svg>
+
+        <div class="cycle-node cycle-node--top">
+          <h4>Survey</h4>
+          <p>We understand what's actually happening before deciding what needs changing.</p>
+        </div>
+        <div class="cycle-node cycle-node--right">
+          <h4>Design</h4>
+          <p>We design the intervention most likely to solve the problem we've identified.</p>
+        </div>
+        <div class="cycle-node cycle-node--bottom">
+          <h4>Build</h4>
+          <p>We turn the strategy into a tangible asset or action to complete.</p>
+        </div>
+        <div class="cycle-node cycle-node--left">
+          <h4>Test</h4>
+          <p>We put it into the market and see what actually happens.</p>
+        </div>
+      </div>
+
+      <p class="big-line" style="margin: 36px 0 0;">
+        Every cycle <em>improves the business</em>.
+      </p>
+
+      <div class="section-prose" style="margin-top: 20px;">
+        <div class="body-copy">
+          <p>Sometimes the project is complete.</p>
+          <p>Sometimes it needs another iteration.</p>
+          <p>Sometimes fixing one problem reveals the next.</p>
+          <p>And then we go again.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 9. SUMMARY FLOW                                               -->
+    <!-- ============================================================ -->
+    <section class="section" style="padding-top: 24px; padding-bottom: 24px;">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h4>Studio Audit<sup style="font-size:0.5em; opacity:0.55; font-weight:500; vertical-align:top;">™</sup></h4>
+            <div class="step-title">We identify the highest-leverage constraint across:</div>
+            <div class="step-sub"><strong>Attract → Align → Activate → Convert</strong></div>
+          </div>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h4>Studio Project<sup style="font-size:0.5em; opacity:0.55; font-weight:500; vertical-align:top;">™</sup></h4>
+            <div class="step-sub">We choose the most important thing to fix or build first.</div>
+          </div>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h4>Studio Cycle<sup style="font-size:0.5em; opacity:0.55; font-weight:500; vertical-align:top;">™</sup></h4>
+            <div class="step-title">Survey → Design → Build → Test → Survey</div>
+            <div class="step-sub">We run focused cycles to iterate and progress fast.</div>
+          </div>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background: var(--accent-subtle);">
+          <div class="card-border" style="border-color: var(--accent-border);"></div>
+          <div class="card-content">
+            <h4>Next Project</h4>
+            <div class="step-sub">Once the current project is complete, we identify the next highest-leverage constraint and repeat.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-center" style="margin: 72px auto 0;">
+        <span class="text-highlight">This is how we make sure the next year of your business doesn't look the same as your last.</span>
+      </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 10. WHAT SUCCESS LOOKS LIKE                                   -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect"><em>What success</em> looks like.</h2>
+        <div class="body-copy">
+          <p>Obviously, we care about:</p>
+          <p>Revenue. Leads. Sales. Growth. All the good stuff.</p>
+          <p>And I'll continue to show the big financial wins my students have had.</p>
+          <p>But Soulmate Studio isn't simply about creating <strong>more</strong>.</p>
+          <p>It's about creating <strong>better</strong>.</p>
+        </div>
+        <div class="cadence" style="margin-top: 16px;">
+          <span>Better people entering.</span>
+          <span>Better buyers.</span>
+          <span>Better clients.</span>
+          <span>Better economics.</span>
+          <span>A better business to operate.</span>
+        </div>
+        <div class="body-copy" style="margin-top: 20px;">
+          <p>So we look at four broad areas.</p>
+        </div>
+      </div>
+
+      <div class="success-grid" style="margin-top: 28px;">
+        <div class="success-card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <div class="num">01</div>
+            <h4>Quality</h4>
+            <p>Are more of the people entering your world people you genuinely want to work with?</p>
+            <p>Are follower quality and lead quality improving?</p>
+          </div>
+        </div>
+        <div class="success-card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <div class="num">02</div>
+            <h4>Conversion</h4>
+            <p>Are the right people finding it easier to move from interest to purchase?</p>
+            <p>Is there less chasing? Less convincing? Less follow-up? Less hesitation?</p>
+            <p>Are people buying faster?</p>
+          </div>
+        </div>
+        <div class="success-card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <div class="num">03</div>
+            <h4>Value</h4>
+            <p>What are your best-fit clients worth to the business?</p>
+            <p>Do they buy at a higher level? Stay longer? Purchase additional offers? Refer more clients like themselves?</p>
+          </div>
+        </div>
+        <div class="success-card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <div class="num">04</div>
+            <h4>Experience</h4>
+            <p>Are your Soulmate Clients getting strong results? Are they implementing?</p>
+            <p>Are they easier and more enjoyable to serve?</p>
+            <p>Does growth improve the business rather than simply creating more operational weight?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 36px;">
+        <div class="body-copy">
+          <p>A smaller business full of Soulmate Clients can often outperform a larger business built around people you never wanted in the first place.</p>
+        </div>
+      </div>
+
+      <p class="body-center">
+        <span class="text-highlight--green">The goal is not to build the biggest possible business. It's to make your <em>best clients</em>, your <em>average client</em>. And the business grows as a result.</span>
+      </p>
+
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 11. WHAT YOU GET - TIERS                                      -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect"><em>What you get</em></h2>
+        <div class="body-copy">
+          <p>There are two ways to join Soulmate Studio™; Studio & Studio Pro.</p>
+          <p>Both options give you access to the same core Studio process, frameworks and support.</p>
+          <p>What changes is how much access you get to me, how quickly we can iterate, and how closely I'm involved in the work.</p>
+        </div>
+      </div>
+
+      <div class="tier-grid" style="margin-top: 32px;">
+
+        <!-- Studio -->
+        <div class="tier-card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <span class="tier-tag">Inside Studio</span>
+            <h3>Studio</h3>
+            <p class="tier-lede">
+              <strong>Studio</strong> is for you if you want strong strategic direction, private support and regular feedback while you or your team handle most of the implementation.
+            </p>
+            <ul class="tier-list">
+              <li>
+                <strong>1 x Studio Audit™</strong>
+                <span>Private 1-to-1 deep-dive with Harry to uncover the key leaks and bottlenecks across your business, then identify the highest-leverage opportunity to fix first.</span>
+              </li>
+              <li>
+                <strong>Studio Plan™</strong>
+                <span>The living document that holds your projects, assets, decisions and learnings in one place.</span>
+              </li>
+              <li>
+                <strong>1x Studio Session per month</strong>
+                <span>Private 1-to-1 working session with Harry around your current Studio Project.</span>
+              </li>
+              <li>
+                <strong>2x Redline Reviews per week</strong>
+                <span>Direct video critique and visual feedback from Harry on the work you're creating.</span>
+              </li>
+              <li>
+                <strong>Private DM Access</strong>
+                <span>Direct access to Harry between sessions for questions, decisions and support.</span>
+              </li>
+              <li>
+                <strong>Open Studio™</strong>
+                <span>Group working sessions and live workshops every Thursday at 1pm BST.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Studio Pro -->
+        <div class="tier-card tier-pro">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <span class="tier-tag">Inside Studio Pro</span>
+            <h3>Studio <em>Pro</em></h3>
+            <p class="tier-lede">
+              <strong>Studio Pro</strong> is for you if the bottleneck isn't simply knowing what to do. It's <em>how fast you want to move.</em>
+            </p>
+            <p style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px;">
+              Everything inside Studio, plus:
+            </p>
+            <ul class="tier-list">
+              <li>
+                <strong>On-Demand Studio Sessions</strong>
+                <span>Book private sessions whenever there's something important we need to work through together.</span>
+              </li>
+              <li>
+                <strong>Studio Sprints™</strong>
+                <span>Longer, hands-on working sessions where we workshop, design and build the project together.</span>
+              </li>
+              <li>
+                <strong>Unlimited Redline Reviews</strong>
+                <span>Send work for review whenever you need Harry's eyes on it.</span>
+              </li>
+              <li>
+                <strong>Priority Redline Turnaround</strong>
+                <span>Your work moves to the front of the review queue so we can iterate faster.</span>
+              </li>
+              <li>
+                <strong>Team Access</strong>
+                <span>Bring the relevant members of your team into the Studio and the work we're doing together.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Studio Library + AI, pulled out of both tiers -->
+      <div class="section-prose" style="margin: 96px auto 0; text-align: center;">
+        <h3 class="library-title">Your Personal <em>Studio Library + AI</em></h3>
+        <p class="library-desc">
+          Our custom Studio Platform, with our AI tools, curriculum, frameworks and resources. It knows your positioning, offers, Soulmate Clients, current projects, decisions and strategy - so every output is specific to what you're actually building.
+        </p>
+      </div>
+
+      <figure class="platform-mockup">
+        <img src="studio-library-mockup-image.png" alt="Preview of the Studio Library + AI platform." />
+      </figure>
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 12. GUARANTEES                                                -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect">Guarantees / <em>Will this work for me?</em></h2>
+
+        <p class="guarantees-body-lead">
+          No guarantees. No over-promising. No refunds of any kind.
+        </p>
+
+        <div class="body-copy">
+          <p>You've seen my content.</p>
+          <p>You've taken the time to read this document.</p>
+          <p>You've seen the student wins and results we've created.</p>
+          <p>I've spent the last six years working in this space and have coached clients across <strong>103+ different industries</strong>, in countries across every continent except Antarctica.</p>
+          <p>And there's an important reason this work can apply across so many different businesses, languages and cultures.</p>
+        </div>
+      </div>
+
+      <p class="guarantees-handwriting">
+        I'm not selling you
+        <span class="redline-wrap"><svg class="redline-scribble" viewBox="0 0 110 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="55" cy="30" rx="52" ry="24" fill="none" stroke="currentColor" stroke-width="2.4" transform="rotate(-6 55 30)"/><ellipse cx="55" cy="30" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6" transform="rotate(5 55 30)"/></svg><em>tactics</em></span>.
+      </p>
+
+      <div class="section-prose" style="margin-top: 24px;">
+        <div class="body-copy">
+          <p>I'm not promising that one funnel, content format, sales script or campaign will magically work for everybody.</p>
+          <p>Tactics change. Markets change. Platforms change. Businesses change.</p>
+          <p>We use <strong>principles</strong>.</p>
+          <p>Principles around buyer behaviour. Positioning. Content. Demand generation. Sales. Decision-making.</p>
+          <p>My job inside Soulmate Studio is to help you understand those principles...</p>
+          <p>Then work with you to apply them <strong>tactically to your business, your clients and your situation.</strong></p>
+        </div>
+      </div>
+
+      <p class="guarantees-handwriting">
+        I'll control <em>what I can control</em>.<br/>
+        You'll control <em>what you can control</em>.<br/>
+        And we'll do the best work we can together.
+      </p>
+
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 13. INVESTMENT                                                -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect"><em>Investment</em>?</h2>
+        <h3 class="h-card" style="font-size: 24px; margin-bottom: 20px;">
+          You start with an initial <em>90 day</em> Studio access.
+        </h3>
+        <div class="body-copy">
+          <p>For one person, that may mean several Studio Projects.</p>
+          <p>For somebody else, one major project might deserve the entire 90 days.</p>
+          <p>And I want to be clear about why I've structured it this way.</p>
+          <p>I think some of the best coaching relationships last years.</p>
+          <p>I have clients who have stayed with me for years.</p>
+          <p>I've had people leave, come back later, and continue working with me as their business evolved.</p>
+          <p>Long-term relationships can be incredibly valuable.</p>
+          <p>But what I don't believe in is forcing someone into a 12-month commitment before either of us knows what their business is going to need in just six months from now.</p>
+          <p>Businesses move quickly. Your goals change. Your market changes. Your clients change. Your offer changes. You change.</p>
+          <p>And sometimes the work we needed to do together is simply finished.</p>
+          <p>I don't want you staying inside Soulmate Studio because a contract says you have to.</p>
+        </div>
+      </div>
+
+      <p class="big-line" style="margin: 28px 0 0;">
+        I want long-term partnerships to be <em>earned</em>, not <em>enforced</em>.
+      </p>
+
+      <div class="section-prose" style="margin-top: 24px;">
+        <div class="body-copy">
+          <p>If there's a valuable Studio Project worth working on together… We continue.</p>
+          <p>If there isn't… We stop.</p>
+          <p>And the reality is, many people do stay far beyond the initial 90 days.</p>
+          <p>Because there is still meaningful work to do.</p>
+        </div>
+      </div>
+
+      <div class="pricing-wrap" style="margin-top: 32px;">
+        <table class="pricing">
+          <thead>
+            <tr>
+              <th>Includes</th>
+              <th class="tier-h">Studio</th>
+              <th class="tier-h">Studio <em>Pro</em></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-label">1 x Studio Audit™</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Studio Plan™</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">1x Studio Session / month</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">2x Redline Reviews / week</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Private DM Access</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Open Studio™</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Studio Library + AI</td><td class="tier-cell"><span class="check">✓</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">On-Demand Studio Sessions</td><td class="tier-cell"><span class="dash">-</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Studio Sprints™</td><td class="tier-cell"><span class="dash">-</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Unlimited Redline Reviews</td><td class="tier-cell"><span class="dash">-</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Priority Redline Turnaround</td><td class="tier-cell"><span class="dash">-</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr><td class="row-label">Team Access</td><td class="tier-cell"><span class="dash">-</span></td><td class="tier-cell"><span class="check">✓</span></td></tr>
+            <tr class="price-row"><td class="row-label">Onboarding Fee</td><td class="tier-cell">$1,500</td><td class="tier-cell">$3,000</td></tr>
+            <tr class="price-row"><td class="row-label">Monthly (after first 30 days)</td><td class="tier-cell">$1,000/month</td><td class="tier-cell">$2,000/month</td></tr>
+            <tr class="total-row"><td class="row-label">Total 90-day investment</td><td class="tier-cell">$3,500</td><td class="tier-cell"><em>$7,000</em></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-prose" style="margin-top: 24px;">
+        <div class="body-copy">
+          <p>After the initial 90 days, both options continue <strong>month-to-month</strong> at their respective monthly rate.</p>
+        </div>
+      </div>
+
+      <p class="big-line" style="margin: 20px 0 0;">
+        <em>Stay while there's meaningful work worth doing together. Leave when there isn't.</em>
+      </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 14. WHICH TO CHOOSE                                           -->
+    <!-- ============================================================ -->
+    <section class="section" style="padding-top: 0;">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h3 class="choose-title">Choose Studio</h3>
+            <p style="font-size: 16px; line-height: 1.55; color: var(--text-primary); margin: 0;">
+              If you want my strategic direction, regular private support and consistent feedback while you or your team handle most of the implementation.
+            </p>
+          </div>
+        </div>
+        <div class="card card-tinted">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <h3 class="choose-title">Choose Studio <em>Pro</em></h3>
+            <p style="font-size: 16px; line-height: 1.55; color: var(--text-primary); margin: 0;">
+              If you want me much closer to the build - with on-demand sessions, deeper Studio Sprints, unlimited feedback and faster iteration.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 28px;">
+        <div class="body-copy">
+          <p>You're not paying twice as much for twice as much information.</p>
+          <p>You're paying for the ability to move through the Studio Cycle faster, with me more closely involved.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><span class="corner-cross divider-cross-left"></span><span class="corner-cross divider-cross-right"></span></div>
+
+    <!-- ============================================================ -->
+    <!-- 15. WHY START NOW                                             -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose">
+        <h2 class="h-sect"><em>Why start now?</em></h2>
+        <div class="body-copy">
+          <p>You probably already know there's a cost to leaving this stuff unfixed.</p>
+          <p>Because you've already felt it.</p>
+          <p>Another month posting and wondering why the right people still aren't buying.</p>
+          <p>Another campaign that gets attention, but doesn't really change much.</p>
+          <p>Another bunch of leads that need chasing, convincing or following up with.</p>
+          <p>And honestly, if you've read this far, there's probably already something in your business you know isn't working as well as it should.</p>
+          <p>You just might not know exactly what the real problem is yet.</p>
+          <p>That's the bit we figure out.</p>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 28px;">
+        <h2 class="problem-highlight">
+          <span class="highlight">But the longer the real problem stays broken, the longer you risk <em>spending time, money and energy solving things that don't really move the needle</em>.</span>
+        </h2>
+      </div>
+
+      <div class="section-prose" style="margin-top: 28px;">
+        <div class="body-copy">
+          <p>There's also a practical reason not to leave it too long.</p>
+          <p>Because of how hands-on I am with every client inside Soulmate Studio - the private sessions, reviews, DMs and actual involvement in the work - there's naturally a limit to how many new people I can bring in each month.</p>
+        </div>
+      </div>
+
+      <div class="scarcity" style="margin-top: 28px;">
+        <div class="card-border"></div>
+        <div class="card-content">
+          <h3 class="h-card" style="font-size: 22px; margin-bottom: 6px;">Right now, that limit is <em>5 new clients per month</em>.</h3>
+          <div class="spots" style="margin-top: 18px;">4 / 5 <em>spots</em></div>
+          <div class="month">Available for October</div>
+        </div>
+      </div>
+
+      <div class="section-prose" style="margin-top: 28px;">
+        <div class="body-copy">
+          <p>That number may change in the future as the Studio evolves, but I won't increase it at the expense of the level of support people are joining for.</p>
+          <p>So if you already know there's something worth fixing, and you want my help fixing it, now is probably a pretty good time to start.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 16. HOW TO GET STARTED                                        -->
+    <!-- ============================================================ -->
+    <section class="section">
+      <div class="section-prose" style="margin: 0 auto; text-align: center;">
+        <h2 class="h-sect"><em>How to get started</em></h2>
+      </div>
+
+      <div class="steps" style="margin-top: 56px;">
+        <div class="step-card">
+          <div class="card-border"></div>
+          <div class="card-content">
+            <div class="step-num">01</div>
+            <h4>Message me on Instagram</h4>
+            <p>Message me at <strong>@theharryneedham</strong> and tell me which option you're interested in: <em>Studio™</em> or <em>Studio Pro™</em>.</p>
+            <p>I'll personally reply and ask you a few quick questions to make sure I can genuinely help, and that the Studio is a good fit for you.</p>
+          </div>
+        </div>
+        <div class="step-card" style="background: var(--accent-subtle);">
+          <div class="card-border" style="border-color: var(--accent-border);"></div>
+          <div class="card-content">
+            <div class="step-num">02</div>
+            <h4>Join the Studio</h4>
+            <p>If we're both happy it's a fit, I'll send you the payment link.</p>
+            <p>As soon as that's processed, we'll get you onboarded and book your initial <strong>Studio Audit™</strong>.</p>
+            <p>Then we get to work.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-wrap">
+        <a class="cta" href="https://www.instagram.com/theharryneedham/" target="_blank" rel="noopener">
+          Message me on Instagram
+          <span class="arrow">→</span>
+        </a>
+      </div>
+
+      <div class="section-prose" style="margin: 72px auto 0; text-align: center;">
+        <h3 class="h-card" style="font-size: 22px;">Not sure which option is right for you?</h3>
+        <div class="body-copy">
+          <p>Message me anyway.</p>
+          <p>Tell me a little about your business, where you're at and what you're trying to solve.</p>
+          <p>I'll be brutally honest about which option I think is the better fit for you - or whether I think I can even help you at all.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-row">
+        <span>© 2026 Soulmate Studio</span>
+        <nav class="footer-nav">
+          <button type="button" class="footer-link" data-policy="privacy">Privacy Policy</button>
+          <button type="button" class="footer-link" data-policy="terms">Terms</button>
+          <button type="button" class="footer-link" data-policy="disclaimer">Disclaimer</button>
+        </nav>
+      </div>
+      <p class="footer-contact">
+        Questions? Contact <a href="mailto:harry@harryneedham.com">harry@harryneedham.com</a>.
+      </p>
+      <p class="footer-meta">
+        This site is not a part of the Facebook website or Meta Platforms, Inc. Additionally, this site is not endorsed by Facebook or Meta in any way. FACEBOOK is a trademark of Meta Platforms, Inc.
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- Policy modal -->
+  <div class="policy-modal" id="policyModal" role="dialog" aria-modal="true" aria-labelledby="policyTitle">
+    <div class="policy-backdrop" data-close></div>
+    <div class="policy-content">
+      <button type="button" class="policy-close" data-close aria-label="Close">×</button>
+
+      <article class="policy-article" data-policy-body="privacy" hidden>
+        <h2 id="policyTitle-privacy">Privacy Policy</h2>
+        <p class="policy-updated">Last updated: 9 October 2026</p>
+
+        <p>This Privacy Policy explains how Soulmate Studio ("we", "us", "our") collects, uses and protects information when you visit this site or enquire about joining the Studio.</p>
+
+        <h3>Who we are</h3>
+        <p>Soulmate Studio is operated by Harry Needham. For any privacy question or data request you can contact us at <a href="mailto:harry@harryneedham.com">harry@harryneedham.com</a>.</p>
+
+        <h3>What we collect</h3>
+        <ul>
+          <li><strong>Browsing data</strong> gathered by our analytics and advertising tools (described below): the pages you visit, approximate location derived from your IP address, device and browser type, referrer, and the actions you take on this page.</li>
+          <li><strong>Contact information</strong> you give us voluntarily when you message us on Instagram, email us, or complete onboarding to join the Studio - typically your name, email, social handles and anything you choose to share about your business.</li>
+          <li><strong>Payment information</strong> is handled directly by our payment provider when you join the Studio. We do not store full card details.</li>
+        </ul>
+
+        <h3>Why we use it</h3>
+        <ul>
+          <li>To respond to your enquiries and to deliver the Studio service if you join.</li>
+          <li>To understand how visitors use this page so we can improve it.</li>
+          <li>To measure the performance of marketing we run on platforms such as Meta/Facebook and Instagram, and (where permitted) to show you relevant ads.</li>
+          <li>To meet our legal and accounting obligations.</li>
+        </ul>
+
+        <h3>Cookies and tracking</h3>
+        <p>We use the <strong>Meta Pixel</strong> to measure page views and ad performance. The Pixel sets cookies in your browser once you have accepted cookies via the banner on this site. You can withdraw consent at any time by clearing site data in your browser or by emailing us.</p>
+        <p>We also store a small preference on your device recording your cookie choice, so we don't have to ask on every visit.</p>
+
+        <h3>Who sees your data</h3>
+        <ul>
+          <li><strong>Meta Platforms, Inc.</strong> - when the Meta Pixel fires and when we run ads to this page.</li>
+          <li><strong>GitHub Pages</strong> - the hosting platform that serves this website.</li>
+          <li><strong>Our payment provider</strong> - when you join the Studio.</li>
+          <li><strong>Our email and messaging tools</strong> - when you contact us or receive communications from the Studio.</li>
+        </ul>
+        <p>We do not sell your data.</p>
+
+        <h3>How long we keep it</h3>
+        <p>We keep enquiry and member records for as long as reasonably necessary to deliver the service and meet our tax/accounting obligations, and then securely delete or anonymise them. You can ask us to delete your personal data at any time.</p>
+
+        <h3>Your rights</h3>
+        <p>Under UK and EU data protection law you have the right to access, correct, delete, restrict or object to our processing of your personal data, and the right to data portability. To exercise any of these rights, email <a href="mailto:harry@harryneedham.com">harry@harryneedham.com</a>. You also have the right to lodge a complaint with the UK Information Commissioner's Office (ico.org.uk).</p>
+
+        <h3>Children</h3>
+        <p>This site and the Studio are intended for adults aged 18 or over. We do not knowingly collect information from children.</p>
+
+        <h3>Changes</h3>
+        <p>We may update this policy from time to time. The "Last updated" date at the top of this policy shows when it was last changed.</p>
+      </article>
+
+      <article class="policy-article" data-policy-body="terms" hidden>
+        <h2 id="policyTitle-terms">Terms &amp; Conditions</h2>
+        <p class="policy-updated">Last updated: 9 October 2026</p>
+
+        <p>These Terms govern your use of this website and, if you choose to join, your membership of Soulmate Studio ("the Studio"). By visiting this site, enquiring, or joining, you agree to these Terms.</p>
+
+        <h3>Who we are</h3>
+        <p>Soulmate Studio is operated by Harry Needham. The best way to reach us is <a href="mailto:harry@harryneedham.com">harry@harryneedham.com</a>.</p>
+
+        <h3>The service</h3>
+        <p>The Studio is a private digital business studio for established coaches, consultants and experts. The exact components you receive depend on the tier you join (Studio or Studio Pro) and are described on this page at the point you join.</p>
+
+        <h3>Enrolment</h3>
+        <p>Enrolment is at our discretion. We may decline to enrol an applicant we don't believe is a good fit, or ask more questions before accepting payment.</p>
+
+        <h3>Fees &amp; billing</h3>
+        <ul>
+          <li>Membership fees are the amounts shown on this page at the time you enrol, consisting of a one-time <strong>onboarding fee</strong> plus a recurring <strong>monthly fee</strong>, payable in advance.</li>
+          <li>The onboarding fee is charged on enrolment and gives you immediate access to the Studio.</li>
+          <li>The first monthly fee is charged <strong>30 days after your onboarding payment</strong>. The second monthly fee is charged <strong>60 days after your onboarding payment</strong>. Together these three payments cover the 90-day Initial Term (the "Initial Term").</li>
+          <li>After the Initial Term, membership continues <strong>month-to-month</strong>, with the monthly fee charged every 30 days on your billing date until you cancel.</li>
+          <li>By enrolling you authorise us (and our payment processor) to charge your nominated payment method on each billing date until your membership ends and all amounts due are paid.</li>
+          <li><strong>The Initial Term is a 90-day commitment.</strong> Enrolment is for the full Initial Term. The onboarding fee and both monthly fees that fall due during the Initial Term are not cancellable within that period, subject to your statutory rights (see "Your cooling-off / statutory rights" below).</li>
+          <li><strong>Failed payments.</strong> If a scheduled payment fails we may suspend access until the balance clears, and may recover reasonable collection costs as permitted by law.</li>
+          <li>Fees are exclusive of any applicable VAT or similar tax, which will be added where required.</li>
+        </ul>
+
+        <h3>Cancellation (after the Initial Term)</h3>
+        <p>Once the Initial 90-day Term has been completed - meaning the onboarding fee and both monthly fees within the Initial Term have been paid - membership moves to a <strong>month-to-month</strong> arrangement at the monthly rate shown on this page at the time of enrolment.</p>
+        <p>From that point you may cancel at any time by giving us notice <strong>in writing</strong> to <a href="mailto:harry@harryneedham.com">harry@harryneedham.com</a>, <strong>at least 7 days before your next billing date</strong>. Notice received less than 7 days before a billing date will take effect from the following billing date, and the next monthly fee will still be charged.</p>
+        <p>Cancellation stops future monthly charges. Access to the Studio continues until the end of the billing period you have already paid for. No partial refunds are given for the unused portion of a billing period.</p>
+
+        <h3>Your cooling-off / statutory rights (if you are a consumer)</h3>
+        <p>If you qualify as a consumer under UK law, you may have a legal right to cancel within 14 days of enrolment, and (where applicable) a further right to cancel within 14 days after the membership auto-renews.</p>
+        <p><strong>Important:</strong> because membership gives immediate access to digital content and services, by enrolling and ticking the relevant box at checkout you expressly request that we begin providing the membership immediately, and you acknowledge that: (a) you lose your statutory right to cancel once the service is fully performed; and (b) if you cancel during a cooling-off period after access has begun, we may charge a proportionate amount for the service already provided.</p>
+        <p>Nothing in these Terms removes any statutory right you have that cannot lawfully be excluded, including the right to a service performed with reasonable care and skill.</p>
+
+        <h3>Refunds</h3>
+        <p>Outside of the statutory rights set out above, and because of the hands-on nature of the Studio and the commitment made to you at the start, <strong>we don't offer refunds</strong> on the onboarding fee or on any monthly fees once charged. If you believe we've made a billing error, email <a href="mailto:harry@harryneedham.com">harry@harryneedham.com</a> and we'll put it right.</p>
+
+        <h3>What's included - and what isn't</h3>
+        <p>We provide guidance, frameworks, feedback and tools. The results you achieve depend entirely on your own effort, skill, offer, audience and execution. Nothing in the Studio is a guarantee of any financial outcome. See the <button type="button" class="footer-link" data-policy="disclaimer" style="display:inline; padding:0; letter-spacing:0; text-transform:none; font-size:inherit;"><em>Disclaimer</em></button> for more.</p>
+
+        <h3>Intellectual property</h3>
+        <p>All frameworks, templates, documents, videos, recordings and other materials inside the Studio remain our intellectual property. Members receive a personal, non-transferable licence to use them for their own business while their membership is active. You may not share, resell, republish, repackage or redistribute Studio materials, in whole or in part.</p>
+
+        <h3>Member conduct</h3>
+        <p>Members agree to treat each other and Harry respectfully, keep private discussions confidential, and not share member-only materials outside the Studio. We may remove any member who breaches these terms, without refund.</p>
+
+        <h3>Our liability</h3>
+        <p>To the fullest extent permitted by law, our total liability to you under or in connection with the Studio is limited to the amount you have paid us in the 90 days before the claim. Nothing in these Terms excludes any liability that cannot be excluded under UK law.</p>
+
+        <h3>Governing law</h3>
+        <p>These Terms are governed by the laws of England and Wales, and any dispute will be subject to the exclusive jurisdiction of the English courts.</p>
+
+        <h3>Changes</h3>
+        <p>We may update these Terms from time to time. The "Last updated" date at the top shows when they were last changed. Material changes affecting active members will be communicated directly.</p>
+      </article>
+
+      <article class="policy-article" data-policy-body="disclaimer" hidden>
+        <h2 id="policyTitle-disclaimer">Disclaimer</h2>
+        <p class="policy-updated">Last updated: 9 October 2026</p>
+
+        <h3>No earnings or results guarantees</h3>
+        <p>Soulmate Studio makes <strong>no earnings claims, return-on-investment promises, or performance guarantees of any kind</strong>. Your results depend entirely on your own effort, skill, market, offer, audience and execution. We provide guidance, frameworks and feedback - you must do the work.</p>
+
+        <h3>Testimonials and case studies</h3>
+        <p>Any case studies, screenshots, income figures or testimonials shown on this page reflect the experiences of specific individuals. They are <strong>not typical or guaranteed results</strong> and should not be taken as an indication of what you or any other member is likely to achieve.</p>
+        <p>Where numbers like "$6.5M+ tracked wins", "103+ niches", "17 languages", "54 countries" or similar are shown, they refer to self-reported wins from students across years. They are not a promise of what you specifically will achieve.</p>
+
+        <h3>Not professional advice</h3>
+        <p>Nothing we provide is financial, legal, tax, investment or medical advice. For advice specific to your situation you should consult a suitably qualified professional.</p>
+
+        <h3>Platforms</h3>
+        <p>This site is not a part of the Facebook website or Meta Platforms, Inc. Additionally, this site is not endorsed by Facebook or Meta in any way. FACEBOOK is a trademark of Meta Platforms, Inc.</p>
+        <p>This site is not endorsed by, affiliated with, or sponsored by Google, YouTube, Instagram, TikTok, LinkedIn, Stripe or any other third-party platform mentioned.</p>
+
+        <h3>Content accuracy</h3>
+        <p>We take care to keep this page accurate, but things change. We can't guarantee the information on this page is complete, current or error-free. Prices, availability and inclusions are those shown at the time of enrolment.</p>
+      </article>
+    </div>
+  </div>
+
+  <!-- Cookie banner -->
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p>We use cookies and the Meta Pixel to understand how visitors use this site and to measure our ads. You can accept or decline below. See our <button type="button" class="footer-link" data-policy="privacy" style="display:inline; padding:0; letter-spacing:0; text-transform:none; font-size:inherit; color:var(--accent);">Privacy Policy</button> for more.</p>
+    <div class="cookie-actions">
+      <button type="button" class="cookie-btn cookie-btn--decline" id="cookieDecline">Decline</button>
+      <button type="button" class="cookie-btn cookie-btn--accept" id="cookieAccept">Accept</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // ===== Policy modal =====
+      var modal = document.getElementById('policyModal');
+      var articles = modal.querySelectorAll('[data-policy-body]');
+      function openPolicy(key) {
+        articles.forEach(function (a) { a.hidden = a.getAttribute('data-policy-body') !== key; });
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        var scrollable = modal.querySelector('.policy-content');
+        if (scrollable) scrollable.scrollTop = 0;
+      }
+      function closePolicy() {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+      document.addEventListener('click', function (e) {
+        var opener = e.target.closest('[data-policy]');
+        if (opener) { e.preventDefault(); openPolicy(opener.getAttribute('data-policy')); return; }
+        var closer = e.target.closest('[data-close]');
+        if (closer && modal.contains(closer)) { e.preventDefault(); closePolicy(); }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closePolicy();
+      });
+
+      // ===== Cookie banner =====
+      var banner = document.getElementById('cookieBanner');
+      var acceptBtn = document.getElementById('cookieAccept');
+      var declineBtn = document.getElementById('cookieDecline');
+      var storageKey = 'ss_cookie_consent';
+      var consent = null;
+      try { consent = localStorage.getItem(storageKey); } catch (e) {}
+      if (!consent) {
+        setTimeout(function () { banner.classList.add('is-open'); }, 400);
+      }
+      acceptBtn.addEventListener('click', function () {
+        try { localStorage.setItem(storageKey, 'granted'); } catch (e) {}
+        banner.classList.remove('is-open');
+        if (window.firePixel) window.firePixel();
+      });
+      declineBtn.addEventListener('click', function () {
+        try { localStorage.setItem(storageKey, 'declined'); } catch (e) {}
+        banner.classList.remove('is-open');
+      });
+    })();
+  </script>
+
+</body>
+</html>
